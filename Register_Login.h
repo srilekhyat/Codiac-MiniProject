@@ -1,3 +1,6 @@
+#include "Learn.h"
+#include "MainQuiz.h"
+
 int registerUser();
 void showUsersList();
 void writeToFile();
@@ -6,9 +9,17 @@ void deleteAllNodes();
 int findUser(char *);
 int checkPassword(char *);
 
-void loginUser();
+
+int loginUser();
 int isUserFound(char *, char *);
+
+void editData();
+void rewriteToFile();
+
 void showNewSelectionScreen();
+void showAdminScreen();
+
+
 
 struct User {
     char firstname[30];
@@ -21,7 +32,10 @@ struct User {
 struct User *HEAD = NULL;
 struct User *TAIL = NULL;
 
+int adminFlag = 0;
+
 #define USERSIZE sizeof(struct User)
+#define isAdminFlag 0
 
 int registerUser() {
     char fname[30], lname[30], username[30], password[30], repswd[30], tempChar;
@@ -33,21 +47,44 @@ int registerUser() {
     printf("Enter Your Last Name: ");
     scanf("%s", lname);
 
-    do{
+    do {
         printf("Choose a User Name: ");
         scanf("%s", username);
         retVal = findUser(username);
         if (retVal)
             printf("*** User Name already Exists, please choose another one ***\n");
-    }while(retVal);
-    do{
+    } while(retVal);
+    do {
         printf("Enter Your Password: ");
-        scanf("%s", password);
+        int p = 0;
+        do {
+            char c = getch();
+            if (c == '\n') {
+                break;
+            }
+            printf("*");
+            password[p] = c;
+            p++;
+        } while (password[p-1] != '\r');
+        password[p-1] = '\0';
+        //scanf("%s", password);
         retVal = checkPassword(password);
     }while(!retVal);
     for(;;){
-        printf("Re-enter Your Password: ");
-        scanf("%s", repswd);
+        printf("\nRe-enter Your Password: ");
+        int p = 0;
+        do {
+            char c = getch();
+            if (c == '\n') {
+                break;
+            }
+            printf("*");
+            repswd[p] = c;
+            p++;
+        } while (repswd[p-1] != '\r');
+        repswd[p-1] = '\0';
+        printf("\n");
+        //scanf("%s", repswd);
 
         if (strcmp(password, repswd) != 0)
             printf("%s:%s - Password does not match!\n", password, repswd);
@@ -196,7 +233,8 @@ int findUser(char *username){
     return 0;
 }
 
-void loginUser() {
+int loginUser() {
+    adminFlag = isAdminFlag;
     char usrnm[30], pswd[30];
     int retVal;
 
@@ -204,24 +242,47 @@ void loginUser() {
         printf("\nEnter your username: ");
         scanf("%s", usrnm);
         printf("Enter your password: ");
-        scanf("%s", pswd);
+
+        int p = 0;
+        do {
+            char c = getch();
+            if (c == '\n') {
+                break;
+            }
+            printf("*");
+            pswd[p] = c;
+            p++;
+        } while (pswd[p-1] != '\r');
+        pswd[p-1] = '\0';
+
+        //scanf("%s", pswd);
         retVal = isUserFound(usrnm, pswd);
-        printf("Invalid Credentials!\n");
+        if (retVal == 0) printf("\nInvalid Credentials!\n");
 
     } while (retVal != 1);
 
-    if (retVal == 1) {
+    if (adminFlag == 1) {
+        return 1;
+    } else if (retVal == 1 && adminFlag == 0) {
         system("cls");
-        getBanner("WELCOME TO", '|', 200);
+        getBanner("  WELCOME", '|', 200);
         printf("\n");
-        getBanner("  CODIAC", '|', 200);
+        getBanner("   BACK!", '|', 200);
+        return 0;
     } 
 }
 
 int isUserFound(char usrnm[], char pswd[]) {
     struct User *tempUser;
+    char *adminUsrnm = "admin";
+    char *adminPswd = "Admin-21";
     tempUser = HEAD;
     while (tempUser != NULL) {
+        if (strcmp(tempUser->username, adminUsrnm) == 0 && strcmp(tempUser->password, adminPswd) == 0) {
+            adminFlag = 1;
+            return 1;
+        }
+
         if (strcmp(tempUser->username, usrnm) == 0 && strcmp(tempUser->password, pswd) == 0) {
             return 1;
         }
@@ -229,37 +290,186 @@ int isUserFound(char usrnm[], char pswd[]) {
     }
 
     return 0;
+}
+
+void editData() {
+    struct User *node = HEAD;
+    int choice;
+    do {
+        printf("1. Keep Editing Data\n");
+        printf("2. EXIT\n");
+
+        printf("\nEnter your Choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+        case 1:;
+            char user[50];
+            showUsersList();
+
+            printf("Enter User whose Data you want to Edit: ");
+            scanf("%s", user);
+
+            while (node != NULL) {
+                int editChoice;
+                if (strcmp(node->username, user) == 0) {
+                    do {
+                        printf("1. Password\n");
+                        printf("2. First Name\n");
+                        printf("3. Last Name\n");
+                        printf("4. EXIT\n");
+
+                        printf("\nEnter your choice: ");
+                        scanf("%d", &editChoice);
+
+                        if (editChoice == 4)
+                            break;
+                        
+                        switch (editChoice) {
+                            case 1:;
+                                char newPassword[50];
+                                printf("Enter New Password: ");
+                                scanf("%s", newPassword);
+                                
+                                strcpy(node->password, newPassword);
+                                printf("Password Changed!\n");
+                                break;
+                            case 2:;
+                                char newFname[50];
+                                printf("Enter New First Name: ");
+                                scanf("%s", newFname);
+                                
+                                strcpy(node->firstname, newFname);
+                                printf("First Name Changed!\n");
+                                break;
+                            case 3:;
+                                char newLname[50];
+                                printf("Enter New Last Name: ");
+                                scanf("%s", newLname);
+                                
+                                strcpy(node->lastname, newLname);
+                                printf("Last Name Changed!\n");
+                                break;
+                            case 4:
+                                break;
+                            default:
+                                break;
+                        }
+                    } while (editChoice != 4);
+                }
+                if (editChoice == 4) {
+                    break;
+                }
+                node = node->NEXT;
+            }
+
+            break;
+        
+        default:
+            break;
+        }
+
+    } while (choice != 2);
+}
+
+void rewriteToFile() {
+    FILE *fptr = fopen("Users.txt", "wb");
+    struct User *node = HEAD;
+
+    while (node != NULL) {
+        fseek(fptr, 0, SEEK_END);
+        fwrite(node, USERSIZE, 1, fptr);
+        node = node->NEXT;
+    }
 
 }
 
 void showNewSelectionScreen() {
     int choice;
 
-    printf("\n\n\t\t\t\t\t\t\t              What do you want to do?\n");
-
-    printf("\t\t\t\t\t\t\t========================================================\n");
-    printf("\t\t\t\t\t\t\t||                                                    ||\n");
-    printf("\t\t\t\t\t\t\t||               1. LEARN                             ||\n");
-    printf("\t\t\t\t\t\t\t||                                                    ||\n");
-    printf("\t\t\t\t\t\t\t||               2. TAKE A QUIZ                       ||\n");
-    printf("\t\t\t\t\t\t\t||                                                    ||\n");
-    printf("\t\t\t\t\t\t\t||               3. EXIT                              ||\n");
-    printf("\t\t\t\t\t\t\t||                                                    ||\n");
-    printf("\t\t\t\t\t\t\t========================================================\n\n");
-
     do {
+        delayTime(1500);
+        system("cls");
+        printf("\n\n\t\t\t\t\t\t\t              What do you want to do?\n");
+
+        printf("\t\t\t\t\t\t\t========================================================\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t||               1. LEARN                             ||\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t||               2. TAKE A QUIZ                       ||\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t||               3. LOOK AT THE LEADERBOARD           ||\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t||               4. LOGOUT                            ||\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t========================================================\n\n");
+
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
             case 1:
+                learn();
                 break;
             case 2:
+                takeMainQuiz();
                 break;
             case 3: printf("\nEXITING THE PROGRAM!\n");
+                break;
+            case 4:
+                printf("Logging out....");
+                delayTime(500);
                 break;
             default: printf("INVALID ENTRY!\n");
                 break;
         }
-    } while (choice != 3);
+    } while (choice != 4);
+}
+
+void showAdminScreen() {
+    int choice; 
+    do {
+        system("cls");
+        delayTime(500);
+        printf("\n\n\t\t\t\t\t\t\t              What do you want to do?\n");
+
+        printf("\t\t\t\t\t\t\t========================================================\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t||               1. EDIT USER DETAILS                 ||\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t||               2. DELETE USER                       ||\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t||               3. VIEW ALL USERS                    ||\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t||               4. LOOK AT THE LEADERBOARD           ||\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t||               5. LOGOUT                            ||\n");
+        printf("\t\t\t\t\t\t\t||                                                    ||\n");
+        printf("\t\t\t\t\t\t\t========================================================\n\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: 
+                editData();
+                rewriteToFile();
+                break;
+            case 2:
+                break;
+            case 3: 
+                showUsersList();
+                break;
+            case 4:
+                break;
+            case 5:
+                printf("Logging out....");
+                delayTime(500);
+                break;
+            default: printf("INVALID ENTRY!\n");
+                break;
+        }
+        printf("\n\n **Want to Continue? Press any key**");
+        getch();
+    } while (choice != 5);
 }

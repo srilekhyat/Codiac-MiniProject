@@ -1,0 +1,5 @@
+C|Introduction|Who founded C Language?|John Backus|Kathleen Booth|Dennis Ritchie|Guido Van Rossum|C
+C|Introduction|In which year was C founded?|1971|1972|1973|1974|B
+C|Introduction|What are the applications of C?|Operating Systems|Databases|Compilers|All of the above|D
+C|Input|What do we use to take input from C?|scanf|input|printf|get|A
+C|Input|What is the correct format specifier for taking input for an integer?|%f|%d|%c|%u|B

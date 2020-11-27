@@ -1,0 +1,2 @@
+C|Which of the following variables cannot be used by switch-case statement?|char|int|float|Double|C
+C|Guess the output:\n\t#include<stdio.h>\n\tint main() {\n\t\tprintf("%c ", "CodiacQuiz[5]);\n\t\treturn 0;\n\t}|c|Q|Compile-Time Error|Run-Time Error|A

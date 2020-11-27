@@ -1,0 +1,45 @@
+C|Introduction|\tWelcome to C Programming, Get ready to start coding!
+C|Introduction|\tLet's get started...
+C|Introduction|\tC is a powerful general-purpose programming language. It can be used to develop software like operating systems, databases, compilers, and so on.
+C|Introduction|\tC programming is an excellent language to learn to program for beginners.
+C|Introduction|\tDeveloped in 1972, by Dennis M. Ritchie C is the most widely used Computer language.
+C|Introduction|\tStructure of a C Program:
+C|Introduction|\t\tA C Program contains the following:
+C|Introduction|\t\t\t> Preprocessor Commands
+C|Introduction|\t\t\t> Functions
+C|Introduction|\t\t\t> Variables
+C|Introduction|\t\t\t> Statements & Expressions
+C|Introduction|\t\t\t> Comments
+C|Introduction|\tNow let's look at a basic C Program - Hello World!
+C|Introduction|\t#include <stdio.h>
+C|Introduction|\tint main() {
+C|Introduction|\t\tprintf("Hello World");
+C|Introduction|\t\treturn 0;
+C|Introduction|\t}
+C|Input|\tWhen we say Input, it means to feed some data into a program. An input can be given in the form of a file or from the command line. 
+C|Input|\tC programming provides a set of built-in functions to read the given input and feed it to the program as per requirement.
+C|Input|\tscanf is used for taking input from STDIN (Standard Input - Keyboard).
+C|Input|\tSyntax:
+C|Input|\t--------
+C|Input|\t\tint scanf(const char *format, ...)
+C|Input|\t\tOn success, the function returns the number of items of the argument list successfully read.
+C|Input|\tExample:
+C|Input|\t\t#include <stdio.h>
+C|Input|\t\tint main() {
+C|Input|\t\t\tint x;
+C|Input|\t\t\tscanf("%d", &x);
+C|Input|\t\t\treturn 0;
+C|Input|\t\t}
+C|Output|printf is used for displaying on STDOUT
+C|Operators|Operators are cool.
+C|Conditional Statements|if, if...else, if...else if...else
+C|Iterative Statements|For Loops, While Loops, Switch...Case, break...continue...goto
+C|Arrays|Arrays are cool.
+C|Strings|Strings are cool.
+C|Functions|Functions are cool.
+C|Recursion|Recursion need Functions.
+C|Pointers|Pointers start with a P.
+C|Structures & Unions|struct and union.
+C|File Handling|Files are cool.
+Python|Introduction|Welcome to Python
+Python|Input|input() is used for taking input from STDIN
