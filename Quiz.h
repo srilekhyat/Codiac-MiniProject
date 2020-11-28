@@ -1,4 +1,4 @@
-void loadFromFile();
+void loadQuizFromFile();
 void insertQuiz(char[], char[], char[], char[], char[], char[], char[], char[]);
 void displayQuestions(char*, char*);
 

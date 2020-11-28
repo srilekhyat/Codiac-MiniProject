@@ -15,11 +15,10 @@ int isUserFound(char *, char *);
 
 void editData();
 void rewriteToFile();
+void deleteUser();
 
 void showNewSelectionScreen();
 void showAdminScreen();
-
-
 
 struct User {
     char firstname[30];
@@ -31,6 +30,7 @@ struct User {
 };
 struct User *HEAD = NULL;
 struct User *TAIL = NULL;
+struct User *CURRENT = NULL;
 
 int adminFlag = 0;
 
@@ -87,7 +87,7 @@ int registerUser() {
         //scanf("%s", repswd);
 
         if (strcmp(password, repswd) != 0)
-            printf("%s:%s - Password does not match!\n", password, repswd);
+            printf("Password does not match!\n");
         else
             break;
     }
@@ -163,13 +163,13 @@ void showUsersList() {
     if (node == NULL) {
         printf("Linked List is empty!\n");
     } else {
-        printf("\n====================================\n");
+        printf("\n                                                                      ====================================\n");
         while (node != NULL) {
-            printf("\t#%d: %s\n", i+1, node->username);
+            printf("                                                                                    \n#%d: %s\n", i+1, node->username);
             node = node -> NEXT;
             i++;
         }
-        printf("\n====================================\n");
+        printf("\n                                                                       ====================================\n");
     }
 }
 
@@ -284,6 +284,7 @@ int isUserFound(char usrnm[], char pswd[]) {
         }
 
         if (strcmp(tempUser->username, usrnm) == 0 && strcmp(tempUser->password, pswd) == 0) {
+            CURRENT = tempUser;
             return 1;
         }
         tempUser = tempUser->NEXT;
@@ -372,6 +373,48 @@ void editData() {
     } while (choice != 2);
 }
 
+void deleteUser() {
+    struct User *userNode;
+    showUsersList();
+    char username[50];
+    int choice;
+    while (1) {
+        printf("\nEnter 1 to Continue\n");
+        printf("Enter -1 to Go Back!\n");
+
+        printf("What do you want to do? ");
+        scanf("%d", &choice);
+
+        if (choice == -1)
+            break;
+
+        printf("\nEnter The Username of The User You Want to Delete: ");
+        scanf("%s", username);
+
+        if (strcmp(HEAD->username, username) == 0) {
+            userNode = HEAD;
+            HEAD = HEAD->NEXT;
+            free(userNode);
+            return;
+        }
+        if (strcmp(TAIL->username, username) == 0) {
+            userNode = TAIL;
+            TAIL = TAIL->PREV;
+            TAIL->NEXT = NULL;
+            free(userNode);
+            return;
+        }
+        userNode = HEAD;
+        while (userNode != NULL && strcmp(userNode->username, username) != 0) {
+            userNode = userNode->NEXT;
+        }
+        userNode->PREV->NEXT = userNode->NEXT;
+        userNode->NEXT->PREV = userNode->PREV;
+        free(userNode);
+    }
+    rewriteToFile();
+}
+
 void rewriteToFile() {
     FILE *fptr = fopen("Users.txt", "wb");
     struct User *node = HEAD;
@@ -411,10 +454,12 @@ void showNewSelectionScreen() {
             case 1:
                 learn();
                 break;
-            case 2:
-                takeMainQuiz();
+            case 2:;
+                if (CURRENT != NULL) {
+                    takeMainQuiz();
+                }
                 break;
-            case 3: printf("\nEXITING THE PROGRAM!\n");
+            case 3: 
                 break;
             case 4:
                 printf("Logging out....");
@@ -429,8 +474,9 @@ void showNewSelectionScreen() {
 void showAdminScreen() {
     int choice; 
     do {
+        delayTime(1500);
         system("cls");
-        delayTime(500);
+
         printf("\n\n\t\t\t\t\t\t\t              What do you want to do?\n");
 
         printf("\t\t\t\t\t\t\t========================================================\n");
@@ -456,6 +502,8 @@ void showAdminScreen() {
                 rewriteToFile();
                 break;
             case 2:
+                deleteUser();
+                rewriteToFile();
                 break;
             case 3: 
                 showUsersList();

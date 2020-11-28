@@ -13,12 +13,10 @@ struct MainQuiz *HEADMQ = NULL;
 void takeMainQuiz();
 void loadMainQuizFromFile();
 void insertMainQuiz(char[], char[], char[], char[], char[], char[], char[]);
-void displayMainQuizQuestions(char[]);
-
+int displayMainQuizQuestions(char[]);
 
 void takeMainQuiz() {
-    int choice;
-    loadMainQuizFromFile();
+    int choice, result;
 
     do {
         printf("\t1. C\n");
@@ -31,7 +29,7 @@ void takeMainQuiz() {
         switch (choice) {
             case 1:;
                 char *concept = "C";
-                displayMainQuizQuestions(concept);
+                result = displayMainQuizQuestions(concept);
                 break;
             
             default:
@@ -108,7 +106,7 @@ void insertMainQuiz(char conc[20], char ques[50], char optA[20], char optB[20], 
 }
 
 
-void displayMainQuizQuestions(char concept[10]) {
+int displayMainQuizQuestions(char concept[10]) {
     struct MainQuiz *node = HEADMQ;
     int totalScore = 0, i = 1;
     
@@ -132,4 +130,5 @@ void displayMainQuizQuestions(char concept[10]) {
         }
         node = node->NEXT;
     }
+    return totalScore;
 }

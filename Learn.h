@@ -173,9 +173,22 @@ void displayInfo(char *concept, char *topic) {
             case 1:;
                 struct Data *node = HEADL;
                 int iter = 0;
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+                WORD saved_attributes;
+
+                GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+                saved_attributes = consoleInfo.wAttributes;
+
+                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+
                 printf("\n ==========================================================================================================================================================================\n");
+
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+
                 printf("\n                                                                        %s\n", topic);
                 printf("                                                         ----------------------------------------\n");
+                SetConsoleTextAttribute(hConsole, saved_attributes);
                 while (node != NULL) {
                     if (strcmp(concept, node->concept) == 0 && strcmp(topic, node->topic) == 0) {
                         delayTimeLearn(100);
@@ -183,7 +196,13 @@ void displayInfo(char *concept, char *topic) {
                     }
                     node = node->NEXT;
                 }
+
+                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+
                 printf("\n ==========================================================================================================================================================================\n");
+
+                SetConsoleTextAttribute(hConsole, saved_attributes);
+                
                 break;
             
             case 2:
