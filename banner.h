@@ -1,4 +1,6 @@
-void    getBanner(char *, char, int);
+#define BANNERSPEED 50
+
+void    getBanner(char *, char);
 void	DisplayBannerRow(int, int, char);
 void delayTime(int seconds);
 
@@ -103,43 +105,37 @@ int ArrAlpha[95][8] = {
 {7, 96, 82, 12, 0, 0, 0, 0}             // ~
 }; 
 
-void	getBanner(char	*AlphaStr, char DispChar, int ms)
-{
+void	getBanner(char	*AlphaStr, char DispChar) {
 	int	i, Len, Row, AlphaIndex, Width, Num;	
 
 	Len = strlen(AlphaStr);
-	for (Row=0; Row<7; Row++)
-	{
-		for (i=0; i<Len; i++)
-		{
+	for (Row=0; Row<7; Row++) {
+		for (i=0; i<Len; i++) {
 			AlphaIndex = (int) AlphaStr[i] - 32;
 			Width = ArrAlpha[AlphaIndex][0];
 			Num = ArrAlpha[AlphaIndex][Row+1];
 			DisplayBannerRow(Width, Num, DispChar);
 		}
-        if (ms > 0) {
-			delayTime(ms);
-        }
+
+        delayTime(BANNERSPEED);
+
 		printf("\n");
 	}
 }
 
-void DisplayBannerRow(int Width, int Num, char DispChar)
-{
+void DisplayBannerRow(int Width, int Num, char DispChar) {
 	char	BinaryStr[12] = "000000000000" ;
 	int	Reminder, i;
 
 	i = Width-1;
-	while (Num != 0)
-	{
+	while (Num != 0) {
 		Reminder = Num % 2;
 		BinaryStr[i] = '0'+ Reminder;
 		i--;
 		Num = Num/2;
 	}
 	
-	for (i=0; i<Width; i++)
-	{
+	for (i=0; i<Width; i++) {
 		if(BinaryStr[i] == '0')
 			printf("  ");
 		else

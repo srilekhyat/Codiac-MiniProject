@@ -1,15 +1,15 @@
 C|Introduction|\tWelcome to C Programming, Get ready to start coding!
-C|Introduction|\tLet's get started...
+C|Introduction|\tLet's get started...\n
 C|Introduction|\tC is a powerful general-purpose programming language. It can be used to develop software like operating systems, databases, compilers, and so on.
 C|Introduction|\tC programming is an excellent language to learn to program for beginners.
-C|Introduction|\tDeveloped in 1972, by Dennis M. Ritchie C is the most widely used Computer language.
+C|Introduction|\tDeveloped in 1972, by Dennis M. Ritchie C is the most widely used Computer language.\n
 C|Introduction|\tStructure of a C Program:
 C|Introduction|\t\tA C Program contains the following:
 C|Introduction|\t\t\t> Preprocessor Commands
 C|Introduction|\t\t\t> Functions
 C|Introduction|\t\t\t> Variables
 C|Introduction|\t\t\t> Statements & Expressions
-C|Introduction|\t\t\t> Comments
+C|Introduction|\t\t\t> Comments\n
 C|Introduction|\tNow let's look at a basic C Program - Hello World!
 C|Introduction|\t#include <stdio.h>
 C|Introduction|\tint main() {

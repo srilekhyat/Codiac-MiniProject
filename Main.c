@@ -11,11 +11,6 @@
 int main() {
     int choice;
 
-    printf("Loading User Table...\n");
-    delayTime(500);
-    loadFromFile();
-    loadMainQuizFromFile();
-
     do {
         system("cls");
         
@@ -28,48 +23,60 @@ int main() {
 
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
 
-        getBanner("WELCOME TO", '|', 200);
+        getBanner("WELCOME TO", '|');
         printf("\n");
-        getBanner("  CODIAC", '|', 200);
+        getBanner("  CODIAC", '|');
 
         SetConsoleTextAttribute(hConsole, saved_attributes);
 
-        delayTime(2000);
+        delayTime(1500);
 
-        printf("\n\n");
-        printf("\n\t                                                    =========================================\n");
-        printf("\t                                                    ||                                     ||\n");
-        printf("\t                                                    ||            1. REGISTER              ||\n");
-        printf("\t                                                    ||                                     ||\n");
-        printf("\t                                                    ||            2. LOGIN                 ||\n");
-        printf("\t                                                    ||                                     ||\n");
-        printf("\t                                                    ||            3. EXIT CODIAC           ||\n");
-        printf("\t                                                    ||                                     ||\n");
-        printf("\t                                                    =========================================\n\n");
+        printf("\n\n\n");
+        printf("\t                                                    %c", 218);
+        for (int i = 0; i < 39; i++) {
+            printf("%c",196);
+        }
+        printf("%c\n",191);
+        printf("\t                                                    %c%c                                     %c%c\n", 179, 179, 179, 179);
+        printf("\t                                                    %c%c            1. REGISTER              %c%c\n", 179, 179, 179, 179);
+        printf("\t                                                    %c%c                                     %c%c\n", 179, 179, 179, 179);
+        printf("\t                                                    %c%c            2. LOGIN                 %c%c\n", 179, 179, 179, 179);
+        printf("\t                                                    %c%c                                     %c%c\n", 179, 179, 179, 179);
+        printf("\t                                                    %c%c            3. EXIT CODIAC           %c%c\n", 179, 179, 179, 179);
+        printf("\t                                                    %c%c                                     %c%c\n", 179, 179, 179, 179);
+        printf("\t                                                    %c",192);
+        for (int i = 0; i < 39; i++) {
+            printf("%c",196);
+        }
+        printf("%c",217);
     
-        printf("\nEnter your choice: ");
+        printf("\n\tEnter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
             case 1: 
+                loadUsers();
                 registerUser();
                 break;
             case 2:;
-                int isAdmin = loginUser();
-                if (isAdmin == 1) {
+                loadUsers();
+                int ret = loginUser();
+                if (ret == 2) {
                     system("cls");
-                    getBanner("HELLO ADMIN", '|', 200);
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+                    getBanner("HELLO ADMIN", '|');
+                    SetConsoleTextAttribute(hConsole, saved_attributes);
                     printf("\n");
                     showAdminScreen();
-                } else {
+                } else if (ret == 1) {
                     showNewSelectionScreen();
                 }
                 break;
             case 3: 
-                printf("\nExiting the program!\n");
+                printf("\n\tExiting the program!\n");
                 break;
             default: 
-                printf("Invalid Entry!\n");
+                printf("\n\tInvalid Entry!\n");
                 break;
         }
     } while (choice != 3);

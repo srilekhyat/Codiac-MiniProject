@@ -81,21 +81,39 @@ void displayQuestions(char concept[10], char topic[20]) {
         char optionChosen[20];
         if (strcmp(node->concept, concept) == 0 && strcmp(node->topic, topic) == 0) {
             do {
+
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+                WORD saved_attributes;
+
+                GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+                saved_attributes = consoleInfo.wAttributes;
+
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+
                 printf("\nQuestion %d: %s\n", i, node->ques);
+                
+                SetConsoleTextAttribute(hConsole, saved_attributes);
+
                 printf("Option A: %s\n", node->optA);
                 printf("Option B: %s\n", node->optB);
                 printf("Option C: %s\n", node->optC);
                 printf("Option D: %s\n", node->optD);
 
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
                 printf("Your Answer: ");
+                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
                 scanf("%s", optionChosen);
+                SetConsoleTextAttribute(hConsole, saved_attributes);
 
                 int result = strncmp(optionChosen, node->res, 1);
 
                 switch (result) {
                     case 0: 
                         i++;
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
                         printf("Yay! You got it right. Keep rocking!\n");
+                        SetConsoleTextAttribute(hConsole, saved_attributes);
                         break;
                     case -1:
                     case -2:
@@ -103,10 +121,14 @@ void displayQuestions(char concept[10], char topic[20]) {
                     case 1:
                     case 2:
                     case 3:
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
                         printf("Oops! Looks like that's the wrong answer. Try Again!\n");
+                        SetConsoleTextAttribute(hConsole, saved_attributes);
                         break;
                     default:
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
                         printf("Invalid Response! Please choose either Option A, B, C or D\n");
+                        SetConsoleTextAttribute(hConsole, saved_attributes);
                         break;
                 }
             } while (strncmp(optionChosen, node->res, 1) != 0);

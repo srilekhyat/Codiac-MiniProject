@@ -1,2 +1,5 @@
 C|Which of the following variables cannot be used by switch-case statement?|char|int|float|Double|C
-C|Guess the output:\n\t#include<stdio.h>\n\tint main() {\n\t\tprintf("%c ", "CodiacQuiz[5]);\n\t\treturn 0;\n\t}|c|Q|Compile-Time Error|Run-Time Error|A
+C|Guess the output:\n\t#include <stdio.h>\n\tint main() {\n\t\tprintf("%c ", "CodiacQuiz"[5]);\n\t\treturn 0;\n\t}|c|Q|Compile-Time Error|Run-Time Error|A
+C|Guess the output:\n\t#include <stdio.h>\n\tint main() {\n\t\tint x = 3;\n\t\tx+=2;\n\t\tprintf("%d", x);\n\t\treturn 0;\n\t}|3|2|5|Compile-Time Error|C
+Python|What is the statement for taking input?|input()|scanf()|gets()|fgets()|A
+Python|What is the function to display on STDOUT?|print()|printf()|Print()|Printf()|A

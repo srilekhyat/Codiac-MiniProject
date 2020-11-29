@@ -9,7 +9,7 @@ struct Data {
 struct Data *HEADL = NULL;
 
 void learn();
-void loadFromFileL();
+void loadConcepts();
 void insert(char[], char[], char[]);
 void display();
 char* chooseTopic(char*, int);
@@ -20,24 +20,37 @@ void delayTimeLearn(int);
 void learn() {
     int choice;
     char *conc;
-    loadFromFileL();
+    loadConcepts();
     loadQuizFromFile();
 
     do {
         system("cls");
-        printf("                                        =============================================================\n");
-        printf("                                        ||                                                         ||\n");
-        printf("                                        ||                     1. C                                ||\n");
-        printf("                                        ||                                                         ||\n");
-        printf("                                        ||                     2. Python                           ||\n");
-        printf("                                        ||                                                         ||\n");
-        printf("                                        ||                     3. OOPs                             ||\n");
-        printf("                                        ||                                                         ||\n");
-        printf("                                        ||                     4. EXIT                             ||\n");
-        printf("                                        ||                                                         ||\n");
-        printf("                                        =============================================================\n");
 
-        printf("\nEnter your choice: ");
+        printf("\n\n\t\t\t\t\t\t\t\tChoose A Topic To Learn!\n");
+
+        printf("\n\n\t\t\t\t\t\t%c", 218);
+        printf("\n\n\t\t\t\t\t\t%c", 218);
+        for (int i = 0; i < 60; i++) {
+            printf("%c",196);
+        }
+        printf("%c\n", 191);
+        printf("\t\t\t\t\t\t%c%c                                                          %c%c\n", 179 ,179, 179, 179);
+        printf("\t\t\t\t\t\t%c%c                      1. C                                %c%c\n", 179 ,179, 179, 179);
+        printf("\t\t\t\t\t\t%c%c                                                          %c%c\n", 179 ,179, 179, 179);
+        printf("\t\t\t\t\t\t%c%c                      2. PYTHON                           %c%c\n", 179 ,179, 179, 179);
+        printf("\t\t\t\t\t\t%c%c                                                          %c%c\n", 179 ,179, 179, 179);
+        printf("\t\t\t\t\t\t%c%c                      3. OOPs                             %c%c\n", 179 ,179, 179, 179);
+        printf("\t\t\t\t\t\t%c%c                                                          %c%c\n", 179 ,179, 179, 179);
+        printf("\t\t\t\t\t\t%c%c                      4. GO BACK                          %c%c\n", 179 ,179, 179, 179);
+        printf("\t\t\t\t\t\t%c%c                                                          %c%c\n", 179 ,179, 179, 179);
+        printf("\t\t\t\t\t\t%c", 192);
+
+        for (int i = 0; i < 60; i++) {
+            printf("%c",196);
+        }
+        printf("%c\n",217);
+        
+        printf("\n\tEnter your choice: ");
         scanf("%d", &choice);
         switch (choice) {
             case 1:;
@@ -54,7 +67,7 @@ void learn() {
     } while (choice != 4);
 }
 
-void loadFromFileL() {
+void loadConcepts() {
     FILE *fptr = fopen("data.txt", "r");
     char buffer[500];
     int i;
@@ -75,6 +88,11 @@ void loadFromFileL() {
             if (information[i] == '\\' && information[i+1] == 't') {
                 information[i] = ' ';
                 information[i+1] = '\t';
+            }
+
+            if (information[i] == '\\' && information[i+1] == 'n') {
+                information[i] = ' ';
+                information[i+1] = '\n';
             }
         }
 
@@ -124,18 +142,33 @@ void displayTopics(char *concept) {
     do {
         system("cls");
         printf("\n\n");
+        
         printf("                                        =======================================================================\n\n");
         struct Data *node = HEADL;
         int i = 1;
         prevTopic[0] = '\0';
         while (node != NULL) {
             if (strcmp(concept, node->concept) == 0 && strcmp(prevTopic, node->topic) != 0) {
-                printf("                                                                 %d.    %s\n\n", i++, node->topic);
+                printf("                                        |%-23s%2d.    %-22s%18s\n\n"," ", i++, node->topic,"|");
+                //printf("                                                                 %d.    %s\n\n", i++, node->topic);
                 strcpy(prevTopic, node->topic);
             }
             node = node->NEXT;
         }
+
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+        WORD saved_attributes;
+
+        GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+        saved_attributes = consoleInfo.wAttributes;
+
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+
         printf("                                                            Enter -1 to GO BACK to Concepts\n");
+        
+        SetConsoleTextAttribute(hConsole, saved_attributes);
+
         printf("                                        =======================================================================\n");
 
         printf("\nEnter your choice: ");
@@ -155,13 +188,26 @@ void displayInfo(char *concept, char *topic) {
     int choice;
     system("cls");
     do {    
-        printf("\n");
-        printf("                                        ----------------------------------------------------------------\n");
-        printf("                                        ||          Enter 1 to continue to information!              || \n");
-        printf("                                        ||          Enter 2 to take a Quiz!                          || \n");
-        printf("                                        ||          Enter -1 to GO BACK to list of Topics            || \n");
-        printf("                                        ----------------------------------------------------------------\n");
-        printf("\nWhat do you want to do? ");
+        printf("\n\n\t\t\t\t\t\t%c", 218);
+        for (int i = 0; i < 60; i++) {
+            printf("%c",196);
+        }
+        printf("%c\n", 191);
+        printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
+        printf("\t\t\t\t\t\t%c             Enter 1 To Continue To Information             %c\n", 179 ,179);
+        printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
+        printf("\t\t\t\t\t\t%c             Enter 2 To Test Your Knowledge                 %c\n", 179 ,179);
+        printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
+        printf("\t\t\t\t\t\t%c             Enter -1 To Go Back                            %c\n", 179 ,179);
+        printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
+        printf("\t\t\t\t\t\t%c", 192);
+
+        for (int i = 0; i < 60; i++) {
+            printf("%c",196);
+        }
+        printf("%c\n",217);
+
+        printf("\n\t\t\t\t\t\t\t\tWhat do you want to do? ");
         scanf("%d", &choice);
 
         if (choice == -1) {
@@ -182,12 +228,20 @@ void displayInfo(char *concept, char *topic) {
 
                 SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
 
-                printf("\n ==========================================================================================================================================================================\n");
+                printf("\n");
+                for (int i = 0; i < 170; i++) {
+                   printf("%c",196);
+                }
+                printf("\n");
 
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
 
                 printf("\n                                                                        %s\n", topic);
-                printf("                                                         ----------------------------------------\n");
+                printf("                                                         ");
+                for (int i = 0; i < 40; i++) {
+                    printf("%c",196);
+                }                                                            
+                printf("\n");
                 SetConsoleTextAttribute(hConsole, saved_attributes);
                 while (node != NULL) {
                     if (strcmp(concept, node->concept) == 0 && strcmp(topic, node->topic) == 0) {
@@ -199,7 +253,11 @@ void displayInfo(char *concept, char *topic) {
 
                 SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
 
-                printf("\n ==========================================================================================================================================================================\n");
+                printf("\n");
+                for (int i = 0; i < 170; i++) {
+                   printf("%c",196);
+                }
+                printf("\n");
 
                 SetConsoleTextAttribute(hConsole, saved_attributes);
                 

@@ -10,32 +10,93 @@ struct MainQuiz {
 };
 struct MainQuiz *HEADMQ = NULL;
 
-void takeMainQuiz();
+int takeMainQuiz(int);
 void loadMainQuizFromFile();
 void insertMainQuiz(char[], char[], char[], char[], char[], char[], char[]);
-int displayMainQuizQuestions(char[]);
+int displayMainQuizQuestions(char[], int);
+void writeScoreToUserFile(char[], int);
 
-void takeMainQuiz() {
-    int choice, result;
+int takeMainQuiz(int totalScore) {
+    int choice, result, testTaken=0;
+    loadMainQuizFromFile();
 
-    do {
-        printf("\t1. C\n");
-        printf("\t2. Python\n");
-        printf("\t3. OOPs\n");
-        printf("\t4. EXIT\n");
+    system("cls");
 
-        printf("\nEnter Your Choice: ");
-        scanf("%d", &choice);
-        switch (choice) {
-            case 1:;
-                char *concept = "C";
-                result = displayMainQuizQuestions(concept);
-                break;
-            
-            default:
-                break;
-        }
-    } while (choice != 4);
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+    WORD saved_attributes;
+
+    GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+    saved_attributes = consoleInfo.wAttributes;
+    
+    printf("\n\n\n\t\t\t\t\t\t\t     Choose A Topic To Take A Quiz On! \n");
+
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+
+    printf("\n\n\t\t\t\t\t\t%c", 218);
+    for (int i = 0; i < 60; i++) {
+        printf("%c",196);
+    }
+    printf("%c\n", 191);
+    printf("\t\t\t\t\t\t%c%c                                                          %c%c\n", 179 ,179, 179, 179);
+    printf("\t\t\t\t\t\t%c%c                      1. C                                %c%c\n", 179 ,179, 179, 179);
+    printf("\t\t\t\t\t\t%c%c                                                          %c%c\n", 179 ,179, 179, 179);
+    printf("\t\t\t\t\t\t%c%c                      2. PYTHON                           %c%c\n", 179 ,179, 179, 179);
+    printf("\t\t\t\t\t\t%c%c                                                          %c%c\n", 179 ,179, 179, 179);
+    printf("\t\t\t\t\t\t%c%c                      3. OOPs                             %c%c\n", 179 ,179, 179, 179);
+    printf("\t\t\t\t\t\t%c%c                                                          %c%c\n", 179 ,179, 179, 179);
+    printf("\t\t\t\t\t\t%c%c                      4. GO BACK                          %c%c\n", 179 ,179, 179, 179);
+    printf("\t\t\t\t\t\t%c%c                                                          %c%c\n", 179 ,179, 179, 179);
+    printf("\t\t\t\t\t\t%c", 192);
+
+    for (int i = 0; i < 60; i++) {
+        printf("%c",196);
+    }
+    printf("%c\n",217);
+
+    SetConsoleTextAttribute(hConsole, saved_attributes);
+
+    printf("\n\tEnter Your Choice: ");
+    scanf("%d", &choice);
+
+    system("cls");
+
+    switch (choice) {
+        case 1:;
+            result = displayMainQuizQuestions("C", totalScore);
+            testTaken = 1;
+            break;
+        case 2:;
+            result = displayMainQuizQuestions("Python", totalScore);
+            testTaken = 1;
+            break;
+        case 3:;
+            result = displayMainQuizQuestions("OOPS", totalScore);
+            testTaken = 1;
+            break;
+        default:
+            break;
+    }
+
+    if (testTaken){
+
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+        WORD saved_attributes;
+
+        GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+        saved_attributes = consoleInfo.wAttributes;
+
+        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+
+        printf("\n\t\t\t\tThank You For Taking The Quiz :) \n\t\t\t\tRedirecting You Back To The Main Menu!\n\n");
+        
+        SetConsoleTextAttribute(hConsole, saved_attributes);
+        
+        delayTime(2000);
+    }
+
+    return result;
 }
 
 
@@ -44,6 +105,8 @@ void loadMainQuizFromFile() {
     char buffer[500];
     int i;
 
+    HEADMQ = NULL;
+    
     printf("Loading Data.....\n");
     while (fgets(buffer, 700, fptr) != NULL) {
         char concepts[20], question[150], optionA[50], optionB[50], optionC[50], optionD[50], result[50];
@@ -106,27 +169,63 @@ void insertMainQuiz(char conc[20], char ques[50], char optA[20], char optB[20], 
 }
 
 
-int displayMainQuizQuestions(char concept[10]) {
+int displayMainQuizQuestions(char concept[10], int totalScore) {
     struct MainQuiz *node = HEADMQ;
-    int totalScore = 0, i = 1;
-    
+    int i = 1;
+
     while (node != NULL) {
         char optionChosen[20];
         if (strcmp(node->concept, concept) == 0) {
-            printf("\n\nQuestion %d: %s\n", i, node->ques);
-            printf("Option A: %s\n", node->optionA);
-            printf("Option B: %s\n", node->optionB);
-            printf("Option C: %s\n", node->optionC);
-            printf("Option D: %s\n", node->optionD);
+            do {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+                WORD saved_attributes;
 
-            printf("Your Answer: ");
-            scanf("%s", optionChosen);
+                GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+                saved_attributes = consoleInfo.wAttributes;
 
-            int result = strncmp(optionChosen, node->result, 1);
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+                printf("\n\nQuestion %d: %s\n", i, node->ques);
 
-            if (result == 0) {
-                totalScore++;
-            }
+                SetConsoleTextAttribute(hConsole, saved_attributes);
+
+                printf("Option A: %s\n", node->optionA);
+                printf("Option B: %s\n", node->optionB);
+                printf("Option C: %s\n", node->optionC);
+                printf("Option D: %s\n", node->optionD);
+
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+
+                printf("Your Answer: ");
+
+                SetConsoleTextAttribute(hConsole, saved_attributes);
+
+                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+                scanf("%s", optionChosen);
+
+                SetConsoleTextAttribute(hConsole, saved_attributes);
+
+                int result = strncmp(optionChosen, node->result, 1);
+                switch (result) {
+                    case 0: 
+                        totalScore++;
+                        i++;
+                        break;
+                    case -1:
+                    case -2:
+                    case -3:
+                    case 1:
+                    case 2:
+                    case 3:
+                        i++;
+                        break;
+                    default:
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
+                        printf("Invalid Response! Please choose either Option A, B, C or D\n");
+                        SetConsoleTextAttribute(hConsole, saved_attributes);
+                        break;
+                }
+            } while (strncmp(optionChosen, node->result, 1) != 0 && strncmp(optionChosen, node->result, 1) != -1 && strncmp(optionChosen, node->result, 1) != -2 && strncmp(optionChosen, node->result, 1) != -3 && strncmp(optionChosen, node->result, 1) != 1 && strncmp(optionChosen, node->result, 1) != 2 && strncmp(optionChosen, node->result, 1) != 3);
         }
         node = node->NEXT;
     }
