@@ -26,9 +26,8 @@ void learn() {
     do {
         system("cls");
 
-        printf("\n\n\t\t\t\t\t\t\t\tChoose A Topic To Learn!\n");
+        SetColorForText("\n\n\t\t\t\t\t\t\t\tChoose A Topic To Learn!\n", 2);
 
-        printf("\n\n\t\t\t\t\t\t%c", 218);
         printf("\n\n\t\t\t\t\t\t%c", 218);
         for (int i = 0; i < 60; i++) {
             printf("%c",196);
@@ -50,7 +49,7 @@ void learn() {
         }
         printf("%c\n",217);
         
-        printf("\n\tEnter your choice: ");
+        SetColorForText("\n\tEnter your choice: ", 2);
         scanf("%d", &choice);
         switch (choice) {
             case 1:;
@@ -142,8 +141,12 @@ void displayTopics(char *concept) {
     do {
         system("cls");
         printf("\n\n");
+        printf("                                        %c", 218);
+        for (int i = 0; i < 70; i++) {
+            printf("%c",196);
+        }
+        printf("%c\n\n",191);
         
-        printf("                                        =======================================================================\n\n");
         struct Data *node = HEADL;
         int i = 1;
         prevTopic[0] = '\0';
@@ -156,22 +159,16 @@ void displayTopics(char *concept) {
             node = node->NEXT;
         }
 
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-        CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-        WORD saved_attributes;
+        SetColorForText("                                                            Enter -1 to GO BACK to Concepts\n\n", 2);
 
-        GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
-        saved_attributes = consoleInfo.wAttributes;
+        printf("                                        %c",192);
+        for (int i = 0; i < 70; i++) {
+            printf("%c",196);
+        }
+        printf("%c",217);
 
-        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
 
-        printf("                                                            Enter -1 to GO BACK to Concepts\n");
-        
-        SetConsoleTextAttribute(hConsole, saved_attributes);
-
-        printf("                                        =======================================================================\n");
-
-        printf("\nEnter your choice: ");
+        SetColorForText("\n\tEnter your choice: ", 2);
         scanf("%d", &choice);
 
 
@@ -207,7 +204,7 @@ void displayInfo(char *concept, char *topic) {
         }
         printf("%c\n",217);
 
-        printf("\n\t\t\t\t\t\t\t\tWhat do you want to do? ");
+        SetColorForText("\n\t\t\t\t\t\t\t\tWhat do you want to do? ", 2);
         scanf("%d", &choice);
 
         if (choice == -1) {
@@ -264,14 +261,26 @@ void displayInfo(char *concept, char *topic) {
                 break;
             
             case 2:
-                printf("\n ==========================================================================================================================================================================\n");
-                printf("                                                          Let's Test Your Knowledge!\n");
-                printf("                                                   ----------------------------------------\n");
+                printf("\n");
+                for (int i = 0; i < 170; i++) {
+                   printf("%c",196);
+                }
+                printf("\n");
+
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+
+                printf("                                                          Let's Test Your Knowledge!\n", 2);
+                printf("                                                   ----------------------------------------\n", 2);
+
+                SetConsoleTextAttribute(hConsole, saved_attributes);
+
                 displayQuestions(concept, topic);
                 break;
 
             default:
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
                 printf("Invalid Choice. Please Choose Either -1, 1 or 2.\n");
+                SetConsoleTextAttribute(hConsole, saved_attributes);
                 break;
         }
 
@@ -333,6 +342,70 @@ char* chooseTopic(char* concept, int choice) {
                 break;
             case 13:
                 tempTopic = "File Handling";
+                strcpy(topic, tempTopic);
+                break;
+            default:
+                break;
+        }
+    }
+
+    if (strcmp(concept, "Python") == 0) {
+        char *tempTopic;
+        switch (choice) {
+            case 1:
+                tempTopic = "Introduction";
+                strcpy(topic, tempTopic);
+                break;
+            case 2:
+                tempTopic = "Input";
+                strcpy(topic, tempTopic);
+                break;
+            case 3:
+                tempTopic = "Output";
+                strcpy(topic, tempTopic);
+                break;
+            case 4:
+                tempTopic = "Operators";
+                strcpy(topic, tempTopic);
+                break;
+            case 5:
+                tempTopic = "Conditional Statements";
+                strcpy(topic, tempTopic);
+                break;
+            case 6:
+                tempTopic = "Iterative Statements";
+                strcpy(topic, tempTopic);
+                break;
+            case 7:
+                tempTopic = "Lists";
+                strcpy(topic, tempTopic);
+                break;
+            case 8:
+                tempTopic = "Tuples";
+                strcpy(topic, tempTopic);
+                break;
+            case 9:
+                tempTopic = "Strings";
+                strcpy(topic, tempTopic);
+                break;
+            case 10:
+                tempTopic = "Dictionary";
+                strcpy(topic, tempTopic);
+                break;
+            case 11:
+                tempTopic = "Functions";
+                strcpy(topic, tempTopic);
+                break;
+            case 12:
+                tempTopic = "Modules";
+                strcpy(topic, tempTopic);
+                break;
+            case 13:
+                tempTopic = "File I/O";
+                strcpy(topic, tempTopic);
+                break;
+            case 14:
+                tempTopic = "Exceptions";
                 strcpy(topic, tempTopic);
                 break;
             default:

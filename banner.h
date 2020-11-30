@@ -3,6 +3,7 @@
 void    getBanner(char *, char);
 void	DisplayBannerRow(int, int, char);
 void delayTime(int seconds);
+void SetColorForText(char*, int);
 
 // The following Array stores the Binary Values for the Characters. Each Character has 7 rows with variable width.
 // First element holds the Width of the Character and the rest the Binary Values.
@@ -149,4 +150,50 @@ void delayTime(int ms) {
     clock_t start_time = clock();
     while (clock() < start_time + ms)
         ;
+}
+
+void SetColorForText(char *OutputStr, int ColorVal) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+    WORD saved_attributes;
+
+    GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+    saved_attributes = consoleInfo.wAttributes;  
+    
+    switch (ColorVal) {
+        case 1:
+            SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+            break;
+        case 2:
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+            break;
+        case 3:
+            SetConsoleTextAttribute(hConsole, 0x0003);
+            break;
+        case 4:
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
+            break;
+        case 5:
+            SetConsoleTextAttribute(hConsole, 0x0005);
+            break;
+        case 6:
+            SetConsoleTextAttribute(hConsole, 0x0006);
+            break;
+        case 7:
+            SetConsoleTextAttribute(hConsole, 0x0007);
+            break;
+        case 8:
+            SetConsoleTextAttribute(hConsole, FOREGROUND_INTENSITY);
+            break;
+        case 9:
+            SetConsoleTextAttribute(hConsole, 0x0009);
+            break;
+        case 10:
+            SetConsoleTextAttribute(hConsole, 0x0010);
+            break;
+        default:
+            break;
+    }
+    printf("%s", OutputStr);
+    SetConsoleTextAttribute(hConsole, saved_attributes);    
 }

@@ -1,5 +1,12 @@
 C|Which of the following variables cannot be used by switch-case statement?|char|int|float|Double|C
 C|Guess the output:\n\t#include <stdio.h>\n\tint main() {\n\t\tprintf("%c ", "CodiacQuiz"[5]);\n\t\treturn 0;\n\t}|c|Q|Compile-Time Error|Run-Time Error|A
 C|Guess the output:\n\t#include <stdio.h>\n\tint main() {\n\t\tint x = 3;\n\t\tx+=2;\n\t\tprintf("%d", x);\n\t\treturn 0;\n\t}|3|2|5|Compile-Time Error|C
+C|What is required in each C Program?|Atleast 1 Function|No Functions|Input Data|Output Data|A
+C|In C Language, the constant is defined ___________|Before main|After main|Anywhere, but starting on a new line|None of these|C
+C|How many times will the following loop execute?\n\tfor(j = 1; j <= 10; j = j-1) |Forever|Never|0|1|A
+C|A pointer is a memory address. Suppose the pointer variable has p address 1000, and that p is declared to have type int*, and an int is 4 bytes long. What address is represented by expression p + 2?|1002|1004|1006|1008|D
+C|What is the result after execution of the following code if a is 10, b is 5, and c is 10?\n\tif ((a > b) && (a <= c))\n\t\ta = a + 1;\n\telse\n\t\tc = c + 1;|a = 10, c = 10|a = 11, c = 10|a = 10, c = 11|a = 11, c = 11|C
+C|Which one of the following is a loop construct that will always be executed once?|for|while|switch|do while|D
+C|What will the result of num variable after execution of the following statements?\n\tint num = 58;\n\tnum %= 11;|5|3|8|11|B
 Python|What is the statement for taking input?|input()|scanf()|gets()|fgets()|A
 Python|What is the function to display on STDOUT?|print()|printf()|Print()|Printf()|A

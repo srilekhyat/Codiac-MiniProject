@@ -43,20 +43,20 @@ int registerUser() {
     int retVal = 0;
 
     scanf("%c", &tempChar);
-    printf("\tEnter Your First Name: ");
+    SetColorForText("\n\tEnter Your First Name: ", 2);
     scanf("%s", fname);
-    printf("\tEnter Your Last Name: ");
+    SetColorForText("\tEnter Your Last Name: ", 2);
     scanf("%s", lname);
 
     do {
-        printf("\tChoose a User Name: ");
+        SetColorForText("\tChoose a User Name: ", 2);
         scanf("%s", username);
         retVal = findUser(username);
         if (retVal)
-            printf("*** User Name already Exists, please choose another one ***\n");
+            SetColorForText("\t***User Name already Exists, please choose another one ***\n", 4);
     } while(retVal);
     do {
-        printf("\tEnter Your Password: ");
+        SetColorForText("\tEnter Your Password: ", 2);
         int p = 0;
         do {
             char c = getch();
@@ -72,7 +72,7 @@ int registerUser() {
         retVal = checkPassword(password);
     } while(!retVal);
     for(;;) {
-        printf("\n\tRe-enter Your Password: ");
+        SetColorForText("\n\tRe-enter Your Password: ", 2);
         int p = 0;
         do {
             char c = getch();
@@ -84,11 +84,9 @@ int registerUser() {
             p++;
         } while (repswd[p-1] != '\r');
         repswd[p-1] = '\0';
-        printf("\n");
-        //scanf("%s", repswd);
 
         if (strcmp(password, repswd) != 0)
-            printf("Password does not match!\n");
+            SetColorForText("\n\tPassword does not match!", 4);
         else
             break;
     }
@@ -130,7 +128,7 @@ void loadUsers() {
     FILE *fp;
     struct User *tempNode, *newNode;
 
-    printf("Loading User Table...\n");
+    //printf("Loading User Table...\n");
     delayTime(500);
 
     deleteAllNodes();
@@ -169,32 +167,22 @@ void showUsersList() {
     if (node == NULL) {
         printf("Seems Like There Aren't Any Users :( \n");
     } else {
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-        CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-        WORD saved_attributes;
+        
+        SetColorForText("\n\n\t\t\t\t\t\t\t\t\tList Of Users:\n", 2);
 
-        GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
-        saved_attributes = consoleInfo.wAttributes;
-
-        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
-
-        printf("\n\n\t\t\t\t\t\t\tList Of Users:\n");
-
-        SetConsoleTextAttribute(hConsole, saved_attributes);
-
-        printf("\n\n\t\t\t\t\t\t\t%c", 218);
-        for (int i = 0; i < 40; i++) {
+        printf("\n\n\t\t\t\t\t\t%c", 218);
+        for (int i = 0; i < 70; i++) {
             printf("%c",196);
         }
         printf("%c\n", 191);
 
         while (node != NULL) {
-            printf("\t\t\t\t\t\t\t%-10s %d. %s - %d %-11s\n", " ", (i+1), node->username, node->totalScore, " ");
+            printf("\t\t\t\t\t\t\t %s %s - %s - %s - %d\n", node->firstname, node->lastname, node->username, node->password, node->totalScore);
             node = node -> NEXT;
             i++;
         }
-        printf("\t\t\t\t\t\t\t%c", 192);
-        for (int i = 0; i < 40; i++) {
+        printf("\t\t\t\t\t\t%c", 192);
+        for (int i = 0; i < 70; i++) {
             printf("%c",196);
         }
         printf("%c\n",217);
@@ -202,7 +190,7 @@ void showUsersList() {
     }
 }
 
-void deleteAllNodes(){
+void deleteAllNodes() {
     struct User *tempNode;
 
     if (HEAD != NULL) {
@@ -238,14 +226,15 @@ int checkPassword(char *passwd){
         return 1;
     else{
         if (charC == 0)
-            printf("Need at least 1 Character...\n");
+            SetColorForText("\n\n\tNeed at least 1 Character...", 4);
         if (digitC == 0)
-            printf("Need at least 1 Digit...\n");
+            SetColorForText("\n\tNeed at least 1 Digit...", 4);
         if (upperC == 0)
-            printf("Need at least 1 Upper Case Character...\n");
+            SetColorForText("\n\tNeed at least 1 Upper Case Character...", 4);
         if (lowerC == 0)
-            printf("Need at least 1 Lower Case Character...\n");
+            SetColorForText("\n\tNeed at least 1 Lower Case Character...", 4);
     }
+    printf("\n");
     
     return 0;
 }
@@ -267,9 +256,9 @@ int loginUser() {
     int retVal;
 
     do {
-        printf("\n\tEnter your username: ");
+        SetColorForText("\n\tEnter your username: ", 2);
         scanf("%s", usrnm);
-        printf("\tEnter your password: ");
+        SetColorForText("\tEnter your password: ", 2);
 
         int p = 0;
         do {
@@ -285,7 +274,7 @@ int loginUser() {
 
         //scanf("%s", pswd);
         retVal = isUserFound(usrnm, pswd);
-        if (retVal == 0) printf("\nInvalid Credentials!\n");
+        if (retVal == 0) SetColorForText("\n\tInvalid Credentials!\n", 4);
 
     } while (retVal != 1 && retVal != 2);
 
@@ -301,7 +290,8 @@ int loginUser() {
         saved_attributes = consoleInfo.wAttributes;
 
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
-
+        
+        printf("\n");
         getBanner("HELLO USER", '|');
 
         SetConsoleTextAttribute(hConsole, saved_attributes);
@@ -357,15 +347,16 @@ void editData() {
         }
         printf("%c\n",217);
 
-        printf("\n\tEnter your Choice: ");  
+        SetColorForText("\n\tEnter your Choice: ", 2);
         scanf("%d", &choice);
 
+        system("cls");
         switch (choice) {
             case 1:;
                 char user[50];
                 showUsersList();
 
-                printf("\tEnter User whose Data you want to Edit: ");
+                SetColorForText("\tEnter User whose Data you want to Edit: ", 2);
                 scanf("%s", user);
 
                 while (node != NULL) {
@@ -394,8 +385,8 @@ void editData() {
                                 printf("%c",196);
                             }
                             printf("%c\n",217);
-
-                            printf("\n\tEnter your choice: ");
+                            
+                            SetColorForText("\n\tEnter your choice: ", 2);
                             scanf("%d", &editChoice);
 
                             if (editChoice == 4)
@@ -403,31 +394,34 @@ void editData() {
                             
                             switch (editChoice) {
                                 case 1:;
-                                    printf("Your Original Password is: %s\n", node->password);
+                                    printf("\n\tYour Original Password is: %s\n", node->password);
                                     char newPassword[50];
-                                    printf("Enter New Password: ");
+                                    printf("\tEnter New Password: ");
                                     scanf("%s", newPassword);
                                     
                                     strcpy(node->password, newPassword);
-                                    printf("Password Changed!\n");
+                                    SetColorForText("\tPassword Changed Successfully!\n", 1);
+                                    delayTime(2000);
                                     break;
                                 case 2:;
-                                    printf("Your Original First Name is: %s\n", node->firstname);
+                                    printf("\n\tYour Original First Name is: %s\n", node->firstname);
                                     char newFname[50];
-                                    printf("Enter New First Name: ");
+                                    printf("\tEnter New First Name: ");
                                     scanf("%s", newFname);
                                     
                                     strcpy(node->firstname, newFname);
-                                    printf("First Name Changed!\n");
+                                    SetColorForText("\tFirst Name Changed Successfully!\n", 1);
+                                    delayTime(2000);
                                     break;
                                 case 3:;
-                                    printf("Your Original Last Name is: %s\n", node->lastname);
+                                    printf("\n\tYour Original Last Name is: %s\n", node->lastname);
                                     char newLname[50];
-                                    printf("Enter New Last Name: ");
+                                    printf("\tEnter New Last Name: ");
                                     scanf("%s", newLname);
                                     
                                     strcpy(node->lastname, newLname);
-                                    printf("Last Name Changed!\n");
+                                    SetColorForText("\tLast Name Changed Successfully!\n", 1);
+                                    delayTime(2000);
                                     break;
                                 case 4:
                                     break;
@@ -473,7 +467,7 @@ void deleteUser() {
         }
         printf("%c\n",217);
 
-        printf("\n\t\tWhat do you want to do? ");
+        SetColorForText("\n\t\tWhat do you want to do? ", 2);
         scanf("%d", &choice);
 
         if (choice == 2)
@@ -481,7 +475,7 @@ void deleteUser() {
         
         system("cls");
         showUsersList();
-        printf("\n\tEnter The Username of The User You Want to Delete: ");
+        SetColorForText("\n\tEnter The Username of The User You Want to Delete: ", 2);
         scanf("%s", username);
 
         if (strcmp(HEAD->username, username) == 0) {
@@ -506,6 +500,7 @@ void deleteUser() {
         free(userNode);
     }
     rewriteToFile();
+    SetColorForText("\n\tUser Has Been Deleted Successfully\n", 4);
 }
 
 void rewriteToFile() {
@@ -542,6 +537,7 @@ void displayLeaderBoard() {
     struct User *node = HEAD;
     int i = 0;
 
+    SetColorForText("\n\t\t\t\t\t\t\t\t\tLEADERBOARD:", 2);
     printf("\n\n\t\t\t\t\t\t\t%c", 218);
     for (int i = 0; i < 40; i++) {
         printf("%c",196);
@@ -549,7 +545,7 @@ void displayLeaderBoard() {
     printf("%c\n", 191);
 
     while (node != NULL) {
-        printf("\t\t\t\t\t\t\t%c%-10s %d. %s - %d %-11s%c\n", 179, " ", (i+1), node->username, node->totalScore, " ", 179);
+        printf("\t\t\t\t\t\t\t%-10s %d. %s - %d %-11s\n", " ", (i+1), node->username, node->totalScore, " ");
         node = node -> NEXT;
         i++;
     }
@@ -580,7 +576,7 @@ void showNewSelectionScreen() {
         delayTime(1000);
         system("cls");
 
-        printf("\n\n\t\t\t\t\t\t\t              What do you want to do?\n\n");
+        SetColorForText("\n\n\t\t\t\t\t\t\t              What do you want to do?\n\n", 2);
 
         printf("\t\t\t\t\t\t\t%c", 218);
         for (int i = 0; i < 50; i++) {
@@ -602,7 +598,7 @@ void showNewSelectionScreen() {
         }
         printf("%c\n",217);
 
-        printf("\tEnter your choice: ");
+        SetColorForText("\tEnter your choice: ", 2);
         scanf("%d", &choice);
         
         switch (choice) {
@@ -619,25 +615,15 @@ void showNewSelectionScreen() {
                 system("cls");
                 //sortAllUsers();
                 displayLeaderBoard();
-                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-                CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-                WORD saved_attributes;
-
-                GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
-                saved_attributes = consoleInfo.wAttributes;
-
-                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
-
-                printf("\n\t\t\t\t\t\t\t<<<<< Press Any Key To Continue >>>>>\n");
-
-                SetConsoleTextAttribute(hConsole, saved_attributes);
+                SetColorForText("\n\t\t\t\t\t\t\t  <<<<< Press Any Key To Continue >>>>>\n", 2);
                 getch();
                 break;
             case 4:
-                printf("Logging out....");
+                SetColorForText("\tLogging out....", 4);
                 delayTime(500);
                 break;
-            default: printf("INVALID ENTRY!\n");
+            default: 
+                SetColorForText("\tINVALID ENTRY!\n", 4);
                 break;
         }
     } while (choice != 4);
@@ -649,7 +635,7 @@ void showAdminScreen() {
         delayTime(1500);
         system("cls");
 
-        printf("\n\n\t\t\t\t\t\t\t              What do you want to do?\n\n");
+        SetColorForText("\n\n\t\t\t\t\t\t\t              What do you want to do?\n\n", 2);
 
         printf("\t\t\t\t\t\t\t%c", 218);
         for (int i = 0; i < 50; i++) {
@@ -673,7 +659,7 @@ void showAdminScreen() {
         }
         printf("%c\n",217);
 
-        printf("\tEnter your choice: ");
+        SetColorForText("\tEnter your choice: ", 2);
         scanf("%d", &choice);
 
         system("cls");
@@ -700,20 +686,7 @@ void showAdminScreen() {
             default: printf("\tINVALID ENTRY!\n");
                 break;
         }
-        
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-        CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-        WORD saved_attributes;
-
-        GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
-        saved_attributes = consoleInfo.wAttributes;
-
-        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
-
-        printf("\n\t\t\t\t\t\t\t<<<<< Press Any Key To Continue >>>>>\n");
-
-        SetConsoleTextAttribute(hConsole, saved_attributes);
-
+        SetColorForText("\n\t\t\t\t\t\t\t<<<<< Press Any Key To Continue >>>>>\n", 2);
         getch();
     } while (choice != 5);
 }

@@ -5,7 +5,7 @@ void displayQuestions(char*, char*);
 struct Quiz {
     char concept[10];
     char topic[20];
-    char ques[50];
+    char ques[80];
     char optA[20];
     char optB[20];
     char optC[20];
@@ -22,7 +22,7 @@ void loadQuizFromFile() {
 
     printf("Loading Data.....\n");
     while (fgets(buffer, 500, fptr) != NULL) {
-        char concepts[10], topics[20], question[50], optionA[20], optionB[20], optionC[20], optionD[20], result[20];
+        char concepts[10], topics[20], question[80], optionA[20], optionB[20], optionC[20], optionD[20], result[20];
 
         char *conc = strtok(buffer, "|");
         char *topic = strtok(NULL, "|");
@@ -48,7 +48,7 @@ void loadQuizFromFile() {
     }
 }
 
-void insertQuiz(char conc[20], char top[20], char ques[50], char optA[20], char optB[20], char optC[20], char optD[20], char res[20]) {
+void insertQuiz(char conc[20], char top[20], char ques[80], char optA[20], char optB[20], char optC[20], char optD[20], char res[20]) {
     struct Quiz *newData = (struct Quiz*)malloc(sizeof(struct Quiz));
     strcpy(newData->concept, conc);
     strcpy(newData->topic, top);

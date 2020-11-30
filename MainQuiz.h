@@ -1,6 +1,6 @@
 struct MainQuiz {
     char concept[20];
-    char ques[150];
+    char ques[250];
     char optionA[50];
     char optionB[50];
     char optionC[50];
@@ -22,16 +22,7 @@ int takeMainQuiz(int totalScore) {
 
     system("cls");
 
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-    WORD saved_attributes;
-
-    GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
-    saved_attributes = consoleInfo.wAttributes;
-    
-    printf("\n\n\n\t\t\t\t\t\t\t     Choose A Topic To Take A Quiz On! \n");
-
-    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+    SetColorForText("\n\n\n\t\t\t\t\t\t\t     Choose A Topic To Take A Quiz On! \n", 2);
 
     printf("\n\n\t\t\t\t\t\t%c", 218);
     for (int i = 0; i < 60; i++) {
@@ -54,9 +45,8 @@ int takeMainQuiz(int totalScore) {
     }
     printf("%c\n",217);
 
-    SetConsoleTextAttribute(hConsole, saved_attributes);
+    SetColorForText("\n\tEnter Your Choice: ", 2);
 
-    printf("\n\tEnter Your Choice: ");
     scanf("%d", &choice);
 
     system("cls");
@@ -79,20 +69,7 @@ int takeMainQuiz(int totalScore) {
     }
 
     if (testTaken){
-
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-        CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-        WORD saved_attributes;
-
-        GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
-        saved_attributes = consoleInfo.wAttributes;
-
-        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
-
-        printf("\n\t\t\t\tThank You For Taking The Quiz :) \n\t\t\t\tRedirecting You Back To The Main Menu!\n\n");
-        
-        SetConsoleTextAttribute(hConsole, saved_attributes);
-        
+        SetColorForText("\n\t\t\t\t\t\t\t\tThank You For Taking The Quiz :) \n\t\t\t\t\t\t\t\tRedirecting You Back To The Main Menu!\n\n", 1);
         delayTime(2000);
     }
 
@@ -109,7 +86,7 @@ void loadMainQuizFromFile() {
     
     printf("Loading Data.....\n");
     while (fgets(buffer, 700, fptr) != NULL) {
-        char concepts[20], question[150], optionA[50], optionB[50], optionC[50], optionD[50], result[50];
+        char concepts[20], question[250], optionA[50], optionB[50], optionC[50], optionD[50], result[50];
 
         char *conc = strtok(buffer, "|");
         char *ques = strtok(NULL, "|");
@@ -144,7 +121,7 @@ void loadMainQuizFromFile() {
     }
 }
 
-void insertMainQuiz(char conc[20], char ques[50], char optA[20], char optB[20], char optC[20], char optD[20], char res[20]) {
+void insertMainQuiz(char conc[20], char ques[250], char optA[20], char optB[20], char optC[20], char optD[20], char res[20]) {
     struct MainQuiz *newData = (struct MainQuiz*)malloc(sizeof(struct MainQuiz));
     strcpy(newData->concept, conc);
     strcpy(newData->ques, ques);

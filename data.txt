@@ -4,13 +4,14 @@ C|Introduction|\tC is a powerful general-purpose programming language. It can be
 C|Introduction|\tC programming is an excellent language to learn to program for beginners.
 C|Introduction|\tDeveloped in 1972, by Dennis M. Ritchie C is the most widely used Computer language.\n
 C|Introduction|\tStructure of a C Program:
+C|Introduction|\t------------------------------------
 C|Introduction|\t\tA C Program contains the following:
 C|Introduction|\t\t\t> Preprocessor Commands
 C|Introduction|\t\t\t> Functions
 C|Introduction|\t\t\t> Variables
 C|Introduction|\t\t\t> Statements & Expressions
 C|Introduction|\t\t\t> Comments\n
-C|Introduction|\tNow let's look at a basic C Program - Hello World!
+C|Introduction|\tNow let's look at a basic C Program - Hello World!\n
 C|Introduction|\t#include <stdio.h>
 C|Introduction|\tint main() {
 C|Introduction|\t\tprintf("Hello World");
@@ -30,7 +31,13 @@ C|Input|\t\t\tint x;
 C|Input|\t\t\tscanf("%d", &x);
 C|Input|\t\t\treturn 0;
 C|Input|\t\t}
-C|Output|printf is used for displaying on STDOUT
+C|Output|\tprintf() function is an inbuilt library function in C Language, i.e., it is available in the "stdio.h" library by default.
+C|Output|\tprintf() function is used to print on to STDOUT (Standard Output). It can print characters, strings, float, integer, octal and hexdecimal values.
+C|Output|\tWe use to format specifiers to do this.
+C|Output|\tFor example:\n\t\t%d - integers\n\t\t%c - characters\n\t\t%f - float\n\t\t%s - strings
+C|Output|\tNote:
+C|Output|\t---------
+C|Output|\tC Language is case sensitive. printf() and scanf are different from Printf() and Scanf().
 C|Operators|Operators are cool.
 C|Conditional Statements|if, if...else, if...else if...else
 C|Iterative Statements|For Loops, While Loops, Switch...Case, break...continue...goto
@@ -41,5 +48,25 @@ C|Recursion|Recursion need Functions.
 C|Pointers|Pointers start with a P.
 C|Structures & Unions|struct and union.
 C|File Handling|Files are cool.
-Python|Introduction|Welcome to Python
+Python|Introduction|Welcome to Python!\n
+Python|Introduction|
 Python|Input|input() is used for taking input from STDIN
+Python|Output|Welcome to Python
+Python|Operators|Welcome to Python
+Python|Conditional Statements|Welcome to Python
+Python|Iterative Statements|Welcome to Python
+Python|Lists|Welcome to Python
+Python|Tuples|Welcome to Python
+Python|Strings|Welcome to Python
+Python|Dictionary|Welcome to Python
+Python|Functions|Welcome to Python
+Python|Modules|Welcome to Python
+Python|File I/O|Welcome to Python
+Python|Exceptions|Welcome to Python
+OOPs|Introduction|Welcome to OOPs
+OOPs|Objects|Welcome to OOPs
+OOPs|Classes|Welcome to OOPs
+OOPs|Inheritance|Welcome to OOPs
+OOPs|Polymorphism|Welcome to OOPs
+OOPs|Abstraction|Welcome to OOPs
+OOPs|Encaspulation|Welcome to OOPs

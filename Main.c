@@ -23,6 +23,7 @@ int main() {
 
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
 
+        printf("\n");
         getBanner("WELCOME TO", '|');
         printf("\n");
         getBanner("  CODIAC", '|');
@@ -49,8 +50,8 @@ int main() {
             printf("%c",196);
         }
         printf("%c",217);
-    
-        printf("\n\tEnter your choice: ");
+
+        SetColorForText("\n\tEnter your choice: ", 2);
         scanf("%d", &choice);
 
         switch (choice) {
@@ -64,6 +65,7 @@ int main() {
                 if (ret == 2) {
                     system("cls");
                     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+                    printf("\n");
                     getBanner("HELLO ADMIN", '|');
                     SetConsoleTextAttribute(hConsole, saved_attributes);
                     printf("\n");
@@ -73,10 +75,15 @@ int main() {
                 }
                 break;
             case 3: 
-                printf("\n\tExiting the program!\n");
+                system("cls");
+                SetColorForText("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tGoodbye!\n", 2);
+                SetColorForText("\n\t\t\t\t\t\t\t\t\t      See You Soon!\n", 2);
+                delayTime(3000);
+                system("cls");
                 break;
             default: 
-                printf("\n\tInvalid Entry!\n");
+                SetColorForText("\n\tInvalid Entry! Please Choose Either 1, 2 or 3\n", 4);
+                delayTime(2000);
                 break;
         }
     } while (choice != 3);
