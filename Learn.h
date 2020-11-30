@@ -60,6 +60,10 @@ void learn() {
                 conc = "Python";
                 displayTopics(conc);
                 break;
+            case 3:
+                conc = "OOPs";
+                displayTopics(conc);
+                break;
             default:
                 break;
         }
@@ -410,6 +414,42 @@ char* chooseTopic(char* concept, int choice) {
                 break;
             default:
                 break;
+        }
+
+        if (strcmp(concept, "OOPs") == 0) {
+            char *tempTopic;
+            switch (choice) {
+                case 1:
+                    tempTopic = "Introduction";
+                    strcpy(topic, tempTopic);
+                    break;
+                case 2:
+                    tempTopic = "Objects";
+                    strcpy(topic, tempTopic);
+                    break;
+                case 3:
+                    tempTopic = "Classes";
+                    strcpy(topic, tempTopic);
+                    break;
+                case 4:
+                    tempTopic = "Inheritance";
+                    strcpy(topic, tempTopic);
+                    break;
+                case 5:
+                    tempTopic = "Polymorphism";
+                    strcpy(topic, tempTopic);
+                    break;
+                case 6:
+                    tempTopic = "Abstraction";
+                    strcpy(topic, tempTopic);
+                    break;
+                case 7:
+                    tempTopic = "Encaspulation";
+                    strcpy(topic, tempTopic);
+                    break;
+                default:
+                    break;
+            }
         }
     }
     return topic;

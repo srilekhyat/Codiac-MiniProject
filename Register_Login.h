@@ -521,10 +521,31 @@ void sortAllUsers() {
     while (currnode != NULL) {
         nextNode = currnode->NEXT;
         while (nextNode != NULL) {
-            if (currnode->totalScore > nextNode->totalScore) {
-                int temp = currnode->totalScore;
+            if (currnode->totalScore < nextNode->totalScore) {
+                int tempInt = currnode->totalScore;
                 currnode->totalScore = nextNode->totalScore;
-                nextNode->totalScore = temp;
+                nextNode->totalScore = tempInt;
+                
+                char tempUserStr[30], tempFNStr[30], tempLNStr[30], tempPswdStr[30];
+
+                strcpy(tempFNStr, currnode->firstname);
+                strcpy(currnode->firstname, nextNode->firstname);
+                strcpy(nextNode->firstname, tempFNStr);
+
+                
+                strcpy(tempLNStr, currnode->lastname);
+                strcpy(currnode->lastname, nextNode->lastname);
+                strcpy(nextNode->lastname, tempLNStr);
+
+                
+                strcpy(tempUserStr, currnode->username);
+                strcpy(currnode->username, nextNode->username);
+                strcpy(nextNode->username, tempUserStr);
+
+                
+                strcpy(tempPswdStr, currnode->password);
+                strcpy(currnode->password, nextNode->password);
+                strcpy(nextNode->password, tempPswdStr);
             }
             nextNode = nextNode->NEXT;
         }
@@ -534,6 +555,7 @@ void sortAllUsers() {
 }
 
 void displayLeaderBoard() {
+    sortAllUsers();
     struct User *node = HEAD;
     int i = 0;
 
@@ -680,7 +702,7 @@ void showAdminScreen() {
                 displayLeaderBoard();
                 break;
             case 5:
-                printf("\n\tLogging out....");
+                SetColorForText("\n\tLogging out....", 4)
                 delayTime(500);
                 break;
             default: printf("\tINVALID ENTRY!\n");

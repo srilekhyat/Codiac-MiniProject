@@ -69,6 +69,7 @@ int takeMainQuiz(int totalScore) {
     }
 
     if (testTaken){
+        printf("\t\t\t\t\t\t\t\tYou Scored: %d Points!\n", (result-totalScore));
         SetColorForText("\n\t\t\t\t\t\t\t\tThank You For Taking The Quiz :) \n\t\t\t\t\t\t\t\tRedirecting You Back To The Main Menu!\n\n", 1);
         delayTime(2000);
     }
@@ -162,18 +163,18 @@ int displayMainQuizQuestions(char concept[10], int totalScore) {
                 saved_attributes = consoleInfo.wAttributes;
 
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
-                printf("\n\nQuestion %d: %s\n", i, node->ques);
+                printf("\n\n\tQuestion %d: %s\n", i, node->ques);
 
                 SetConsoleTextAttribute(hConsole, saved_attributes);
 
-                printf("Option A: %s\n", node->optionA);
-                printf("Option B: %s\n", node->optionB);
-                printf("Option C: %s\n", node->optionC);
-                printf("Option D: %s\n", node->optionD);
+                printf("\tOption A: %s\n", node->optionA);
+                printf("\tOption B: %s\n", node->optionB);
+                printf("\tOption C: %s\n", node->optionC);
+                printf("\tOption D: %s\n", node->optionD);
 
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
 
-                printf("Your Answer: ");
+                printf("\tYour Answer: ");
 
                 SetConsoleTextAttribute(hConsole, saved_attributes);
 
@@ -198,7 +199,7 @@ int displayMainQuizQuestions(char concept[10], int totalScore) {
                         break;
                     default:
                         SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
-                        printf("Invalid Response! Please choose either Option A, B, C or D\n");
+                        printf("\tInvalid Response! Please choose either Option A, B, C or D\n");
                         SetConsoleTextAttribute(hConsole, saved_attributes);
                         break;
                 }
