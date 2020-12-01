@@ -16,6 +16,7 @@ void insertMainQuiz(char[], char[], char[], char[], char[], char[], char[]);
 int displayMainQuizQuestions(char[], int);
 void writeScoreToUserFile(char[], int);
 
+
 int takeMainQuiz(int totalScore) {
     int choice, result, testTaken=0;
     loadMainQuizFromFile();
@@ -121,6 +122,7 @@ void loadMainQuizFromFile() {
         conc = strtok(NULL, "|");
     }
 }
+
 
 void insertMainQuiz(char conc[20], char ques[250], char optA[20], char optB[20], char optC[20], char optD[20], char res[20]) {
     struct MainQuiz *newData = (struct MainQuiz*)malloc(sizeof(struct MainQuiz));

@@ -244,6 +244,7 @@ void displayInfo(char *concept, char *topic) {
                 }                                                            
                 printf("\n");
                 SetConsoleTextAttribute(hConsole, saved_attributes);
+                
                 while (node != NULL) {
                     if (strcmp(concept, node->concept) == 0 && strcmp(topic, node->topic) == 0) {
                         delayTimeLearn(100);

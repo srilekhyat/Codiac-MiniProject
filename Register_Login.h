@@ -477,6 +477,7 @@ void deleteUser() {
         showUsersList();
         SetColorForText("\n\tEnter The Username of The User You Want to Delete: ", 2);
         scanf("%s", username);
+        SetColorForText("\n\tUser Has Been Deleted Successfully\n", 4);
 
         if (strcmp(HEAD->username, username) == 0) {
             userNode = HEAD;
@@ -498,9 +499,9 @@ void deleteUser() {
         userNode->PREV->NEXT = userNode->NEXT;
         userNode->NEXT->PREV = userNode->PREV;
         free(userNode);
+        system("cls");
     }
     rewriteToFile();
-    SetColorForText("\n\tUser Has Been Deleted Successfully\n", 4);
 }
 
 void rewriteToFile() {
@@ -557,25 +558,46 @@ void sortAllUsers() {
 void displayLeaderBoard() {
     sortAllUsers();
     struct User *node = HEAD;
-    int i = 0;
 
-    SetColorForText("\n\t\t\t\t\t\t\t\t\tLEADERBOARD:", 2);
-    printf("\n\n\t\t\t\t\t\t\t%c", 218);
-    for (int i = 0; i < 40; i++) {
+    printf("\n\n\t\t\t\t\t%c", 218);
+    for (int i = 0; i < 80; i++) {
         printf("%c",196);
     }
-    printf("%c\n", 191);
+    
+    printf("%c\n\t\t\t\t\t%c\t\t\t   ", 191, 179);
+    SetColorForText(" L E A D E R B O A R D ", 2);
+    printf("%-31s%c\n\t\t\t\t\t%c", " ", 179, 192);
+    for (int i = 0; i < 80; i++) {
+        printf("%c",196);
+    }
+    printf("%c\n", 217);
+
+    printf("\t\t\t\t\t%c\t\t ", 179);
+    SetColorForText("USERNAME", 6);
+    printf("\t\t%c\t\t ", 179);
+
+    SetColorForText("Score", 6); 
+    printf("\t\t\t %c\n", 179);
+    printf("\t\t\t\t\t%c", 192);
+
+    for (int i = 0; i < 80; i++) {
+        printf("%c",196);
+    }
+    printf("%c", 217);
+    int i = 0;
 
     while (node != NULL) {
-        printf("\t\t\t\t\t\t\t%-10s %d. %s - %d %-11s\n", " ", (i+1), node->username, node->totalScore, " ");
+        printf("\n\t\t\t\t\t%c%15s%d. %s\t\t%c%15s   %d\t\t\t %c", 179, " ", (i+1), node->username, 179, " ", node->totalScore, 179);
         node = node -> NEXT;
         i++;
     }
-    printf("\t\t\t\t\t\t\t%c", 192);
-    for (int i = 0; i < 40; i++) {
+
+    printf("\n\t\t\t\t\t%c", 192);
+    for (int i = 0; i < 80; i++) {
         printf("%c",196);
     }
-    printf("%c\n",217);
+    printf("%c\n", 217);
+    
 }
 
 void updateCurrUser(char username[50], int Score) {
@@ -635,9 +657,8 @@ void showNewSelectionScreen() {
                 break;
             case 3: 
                 system("cls");
-                //sortAllUsers();
                 displayLeaderBoard();
-                SetColorForText("\n\t\t\t\t\t\t\t  <<<<< Press Any Key To Continue >>>>>\n", 2);
+                SetColorForText("\n\t\t\t\t\t\t\t   <<<<< Press Any Key To Continue >>>>>\n", 2);
                 getch();
                 break;
             case 4:
@@ -697,18 +718,22 @@ void showAdminScreen() {
                 break;
             case 3: 
                 showUsersList();
+                SetColorForText("\n\t\t\t\t\t\t\t  <<<<< Press Any Key To Continue >>>>>\n", 2);
+                getch();
                 break;
             case 4: 
                 displayLeaderBoard();
+                SetColorForText("\n\t\t\t\t\t\t\t  <<<<< Press Any Key To Continue >>>>>\n", 2);
+                getch();
                 break;
             case 5:
-                SetColorForText("\n\tLogging out....", 4)
+                SetColorForText("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tLogging out....", 4);
                 delayTime(500);
                 break;
             default: printf("\tINVALID ENTRY!\n");
                 break;
         }
-        SetColorForText("\n\t\t\t\t\t\t\t<<<<< Press Any Key To Continue >>>>>\n", 2);
-        getch();
+        if (choice == 5)
+            break;
     } while (choice != 5);
 }

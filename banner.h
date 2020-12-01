@@ -140,7 +140,8 @@ void DisplayBannerRow(int Width, int Num, char DispChar) {
 		if(BinaryStr[i] == '0')
 			printf("  ");
 		else
-			printf("|%c", DispChar);
+            //printf("|%c", DispChar);
+			printf("%c%c", 179, 179);
 	
 	}
 }
