@@ -162,31 +162,66 @@ void loadUsers() {
 }
 
 void showUsersList() {
+    system("cls");
     struct User *node = HEAD;
     int i = 0;
     if (node == NULL) {
-        printf("Seems Like There Aren't Any Users :( \n");
+        printf("\n\nSeems Like There Aren't Any Users :( \n");
     } else {
         
-        SetColorForText("\n\n\t\t\t\t\t\t\t\t\tList Of Users:\n", 2);
-
-        printf("\n\n\t\t\t\t\t\t%c", 218);
-        for (int i = 0; i < 70; i++) {
-            printf("%c",196);
-        }
-        printf("%c\n", 191);
-
-        while (node != NULL) {
-            printf("\t\t\t\t\t\t\t %s %s - %s - %s - %d\n", node->firstname, node->lastname, node->username, node->password, node->totalScore);
-            node = node -> NEXT;
-            i++;
-        }
         printf("\t\t\t\t\t\t%c", 192);
         for (int i = 0; i < 70; i++) {
             printf("%c",196);
         }
         printf("%c\n",217);
-    
+
+            printf("\n\t\t%c", 218);
+        for (int i = 0; i < 120; i++) {
+            printf("%c", 196);
+        }
+        printf("%c\n", 191);
+
+        printf("\t\t%c\t\t\t\t\t\t ", 179);
+        SetColorForText("U S E R  T A B L E", 2);
+        printf("\t\t\t\t\t\t\t %c\n", 179);
+
+        printf("\t\t%c", 192);
+        for (int i = 0; i < 120; i++) {
+            printf("%c", 196);
+        }
+        printf("%c\n", 217);
+
+        printf("\t\t%c\t\t", 179);
+        SetColorForText("Name", 6);
+        printf("\t\t%c\t\t", 179);
+        SetColorForText("User Name", 6);
+        printf("\t\t%c\t", 179);
+        SetColorForText("Password", 6);
+        printf("\t    %c\t   ", 179);
+        SetColorForText("Score", 6);
+        printf("\t %c", 179);
+
+        printf("\n\t\t%c", 192);
+        for (int i = 0; i < 120; i++) {
+            printf("%c", 196);
+        }
+        printf("%c\n", 217);
+
+        while (node != NULL) {
+            char NameStr[60];
+            strcpy(NameStr, node->firstname);
+            strcat(NameStr, " ");
+            strcat(NameStr, node->lastname);
+            printf("\t\t%c\t%-24s%c\t\t%-24s%c\t%-20s%c\t   %-14d%c\n", 179, NameStr, 179, node->username, 179, node->password, 179, node->totalScore, 179);
+            node = node -> NEXT;
+        }
+
+        printf("\t\t%c", 192);
+        for (int i = 0; i < 120; i++) {
+            printf("%c", 196);
+        }
+        printf("%c\n", 217);
+        
     }
 }
 
@@ -597,6 +632,8 @@ void displayLeaderBoard() {
         printf("%c",196);
     }
     printf("%c\n", 217);
+
+    
     
 }
 
@@ -675,7 +712,7 @@ void showNewSelectionScreen() {
 void showAdminScreen() {
     int choice; 
     do {
-        delayTime(1500);
+        delayTime(500);
         system("cls");
 
         SetColorForText("\n\n\t\t\t\t\t\t\t              What do you want to do?\n\n", 2);
@@ -700,7 +737,7 @@ void showAdminScreen() {
         for (int i = 0; i < 50; i++) {
             printf("%c",196);
         }
-        printf("%c\n",217);
+        printf("%c\n\n",217);
 
         SetColorForText("\tEnter your choice: ", 2);
         scanf("%d", &choice);
