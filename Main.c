@@ -1,3 +1,5 @@
+// Main .c file of Codiac(Mini Project)
+
 #include <stdio.h>
 #include <conio.h>
 #include <time.h>
@@ -14,6 +16,7 @@ int main() {
     do {
         system("cls");
         
+        // setting color for intro banner
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
         WORD saved_attributes;
@@ -23,14 +26,16 @@ int main() {
 
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
 
-        printf("\n");
+        // printing banner
+        printf("\n");                  
         getBanner("WELCOME TO", '|');
         printf("\n");
         getBanner("  CODIAC", '|');
 
         SetConsoleTextAttribute(hConsole, saved_attributes);
 
-        delayTime(1500);
+        // delaying time for getting effect of real-time application
+        delayTime(1500);    
 
         printf("\n\n\n");
         printf("\t                                                    %c", 218);
@@ -54,12 +59,25 @@ int main() {
         SetColorForText("\n\tEnter your choice: ", 2);
         scanf("%d", &choice);
 
+        // message box for checking if user wants to exit or not
+        if (choice == 3) {
+            int CheckForExit = MessageBox(NULL, TEXT("Are you sure you want to Exit?"), TEXT("Choose the Wrong Choice?"), MB_YESNO);
+            if (CheckForExit == 7) { // if no, choice = 4 is set
+                choice = 4;
+            }
+        } else { // message box displayed for checking if user wants to go back or not
+            int retVal = MessageBox(NULL, TEXT("Do you want to go back?"), TEXT("Choose the Wrong Choice?"), MB_YESNO);
+            if (retVal == 6) { // if yes, choice = 4 is set
+                choice = 4;
+            } 
+        }
+
         switch (choice) {
-            case 1: 
+            case 1: // register
                 loadUsers();
                 registerUser();
                 break;
-            case 2:;
+            case 2:; // login
                 loadUsers();
                 int ret = loginUser();
                 if (ret == 2) {
@@ -74,11 +92,14 @@ int main() {
                     showNewSelectionScreen();
                 }
                 break;
-            case 3: 
+            case 3: // exit
                 system("cls");
                 SetColorForText("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tGoodbye!\n", 2);
                 SetColorForText("\n\t\t\t\t\t\t\t\t\t      See You Soon!\n", 2);
                 delayTime(3000);
+                system("cls");
+                break;
+            case 4: // dummy case for handling message boxes
                 system("cls");
                 break;
             default: 
