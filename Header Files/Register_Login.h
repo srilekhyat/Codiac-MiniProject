@@ -2,7 +2,7 @@
 #include "MainQuiz.h"
 
 int registerUser();
-void showUsersList();
+int showUsersList();
 void writeToFile();
 void loadUsers();
 void deleteAllNodes();
@@ -161,12 +161,13 @@ void loadUsers() {
     free(tempNode);
 }
 
-void showUsersList() {
+int showUsersList() {
     system("cls");
     struct User *node = HEAD;
     int i = 0;
     if (node == NULL) {
-        printf("\n\nSeems Like There Aren't Any Users :( \n");
+        SetColorForText("\n\n\t\t\t\t\t\t\tSeems Like There Aren't Any Users :( \n", 4);
+        return 0;
     } else {
         
         printf("\t\t\t\t\t\t%c", 192);
@@ -223,6 +224,7 @@ void showUsersList() {
         printf("%c\n", 217);
         
     }
+    return 1;
 }
 
 void deleteAllNodes() {
@@ -288,7 +290,7 @@ int findUser(char *username) {
 
 int loginUser() {
     char usrnm[30], pswd[30];
-    int retVal;
+    int retVal, IsUserExists;
 
     do {
         SetColorForText("\n\tEnter your username: ", 2);
@@ -308,8 +310,13 @@ int loginUser() {
         pswd[p-1] = '\0';
 
         //scanf("%s", pswd);
-        retVal = isUserFound(usrnm, pswd);
-        if (retVal == 0) SetColorForText("\n\tInvalid Credentials!\n", 4);
+        IsUserExists = findUser(usrnm);
+        if (IsUserExists || strcmp(usrnm, "admin") == 0) {
+            retVal = isUserFound(usrnm, pswd);
+            if (retVal == 0) SetColorForText("\n\tInvalid Credentials!\n", 4);
+        } else {
+            SetColorForText("\n\tUser Not Found!\n", 4);
+        }
 
     } while (retVal != 1 && retVal != 2);
 
@@ -345,12 +352,14 @@ int isUserFound(char usrnm[], char pswd[]) {
     strcpy(adminUsername, adminUsrnm);
     strcpy(adminPassword, adminPswd);
 
+    if (strcmp(adminUsername, usrnm) == 0 && strcmp(adminPassword, pswd) == 0) {
+        return 2;
+    }
+
     tempUser = HEAD;
 
     while (tempUser != NULL) {
-        if (strcmp(adminUsername, usrnm) == 0 && strcmp(adminPassword, pswd) == 0) {
-            return 2;
-        } else if (strcmp(tempUser->username, usrnm) == 0 && strcmp(tempUser->password, pswd) == 0) {
+        if (strcmp(tempUser->username, usrnm) == 0 && strcmp(tempUser->password, pswd) == 0) {
             CURRUSER = tempUser;
             return 1;
         }
@@ -389,86 +398,95 @@ void editData() {
         switch (choice) {
             case 1:;
                 char user[50];
-                showUsersList();
+                int UsersFound = showUsersList();
+                if (!UsersFound) {
+                    return;  
+                }
 
                 SetColorForText("\tEnter User whose Data you want to Edit: ", 2);
                 scanf("%s", user);
 
-                while (node != NULL) {
-                    int editChoice;
-                    if (strcmp(node->username, user) == 0) {
-                        do {
-                            system("cls");
+                int retVal = findUser(user);
+                if (retVal) {
+                    while (node != NULL) {
+                        int editChoice;
+                        if (strcmp(node->username, user) == 0) {
+                            do {
+                                system("cls");
 
-                            printf("\n\n\t\t\t\t\t\t%c", 218);
-                            for (int i = 0; i < 60; i++) {
-                                printf("%c",196);
-                            }
-                            printf("%c\n", 191);
-                            printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
-                            printf("\t\t\t\t\t\t%c                  1. Password                               %c\n", 179 ,179);
-                            printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
-                            printf("\t\t\t\t\t\t%c                  2. First Name                             %c\n", 179 ,179);
-                            printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
-                            printf("\t\t\t\t\t\t%c                  3. Last Name                              %c\n", 179 ,179);
-                            printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
-                            printf("\t\t\t\t\t\t%c                  4. Go Back                                %c\n", 179 ,179);
-                            printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
-                            printf("\t\t\t\t\t\t%c", 192);
+                                printf("\n\n\t\t\t\t\t\t%c", 218);
+                                for (int i = 0; i < 60; i++) {
+                                    printf("%c",196);
+                                }
+                                printf("%c\n", 191);
+                                printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
+                                printf("\t\t\t\t\t\t%c                  1. Password                               %c\n", 179 ,179);
+                                printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
+                                printf("\t\t\t\t\t\t%c                  2. First Name                             %c\n", 179 ,179);
+                                printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
+                                printf("\t\t\t\t\t\t%c                  3. Last Name                              %c\n", 179 ,179);
+                                printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
+                                printf("\t\t\t\t\t\t%c                  4. Go Back                                %c\n", 179 ,179);
+                                printf("\t\t\t\t\t\t%c                                                            %c\n", 179 ,179);
+                                printf("\t\t\t\t\t\t%c", 192);
 
-                            for (int i = 0; i < 60; i++) {
-                                printf("%c",196);
-                            }
-                            printf("%c\n",217);
-                            
-                            SetColorForText("\n\tEnter your choice: ", 2);
-                            scanf("%d", &editChoice);
+                                for (int i = 0; i < 60; i++) {
+                                    printf("%c",196);
+                                }
+                                printf("%c\n",217);
+                                
+                                SetColorForText("\n\tEnter your choice: ", 2);
+                                scanf("%d", &editChoice);
 
-                            if (editChoice == 4)
-                                break;
-                            
-                            switch (editChoice) {
-                                case 1:;
-                                    printf("\n\tYour Original Password is: %s\n", node->password);
-                                    char newPassword[50];
-                                    printf("\tEnter New Password: ");
-                                    scanf("%s", newPassword);
-                                    
-                                    strcpy(node->password, newPassword);
-                                    SetColorForText("\tPassword Changed Successfully!\n", 1);
-                                    delayTime(2000);
+                                if (editChoice == 4)
                                     break;
-                                case 2:;
-                                    printf("\n\tYour Original First Name is: %s\n", node->firstname);
-                                    char newFname[50];
-                                    printf("\tEnter New First Name: ");
-                                    scanf("%s", newFname);
-                                    
-                                    strcpy(node->firstname, newFname);
-                                    SetColorForText("\tFirst Name Changed Successfully!\n", 1);
-                                    delayTime(2000);
-                                    break;
-                                case 3:;
-                                    printf("\n\tYour Original Last Name is: %s\n", node->lastname);
-                                    char newLname[50];
-                                    printf("\tEnter New Last Name: ");
-                                    scanf("%s", newLname);
-                                    
-                                    strcpy(node->lastname, newLname);
-                                    SetColorForText("\tLast Name Changed Successfully!\n", 1);
-                                    delayTime(2000);
-                                    break;
-                                case 4:
-                                    break;
-                                default:
-                                    break;
-                            }
-                        } while (editChoice != 4);
+                                
+                                switch (editChoice) {
+                                    case 1:;
+                                        printf("\n\tYour Original Password is: %s\n", node->password);
+                                        char newPassword[50];
+                                        printf("\tEnter New Password: ");
+                                        scanf("%s", newPassword);
+                                        
+                                        strcpy(node->password, newPassword);
+                                        SetColorForText("\tPassword Changed Successfully!\n", 1);
+                                        delayTime(2000);
+                                        break;
+                                    case 2:;
+                                        printf("\n\tYour Original First Name is: %s\n", node->firstname);
+                                        char newFname[50];
+                                        printf("\tEnter New First Name: ");
+                                        scanf("%s", newFname);
+                                        
+                                        strcpy(node->firstname, newFname);
+                                        SetColorForText("\tFirst Name Changed Successfully!\n", 1);
+                                        delayTime(2000);
+                                        break;
+                                    case 3:;
+                                        printf("\n\tYour Original Last Name is: %s\n", node->lastname);
+                                        char newLname[50];
+                                        printf("\tEnter New Last Name: ");
+                                        scanf("%s", newLname);
+                                        
+                                        strcpy(node->lastname, newLname);
+                                        SetColorForText("\tLast Name Changed Successfully!\n", 1);
+                                        delayTime(2000);
+                                        break;
+                                    case 4:
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            } while (editChoice != 4);
+                        }
+                        if (editChoice == 4) {
+                            break;
+                        }
+                        node = node->NEXT;
                     }
-                    if (editChoice == 4) {
-                        break;
-                    }
-                    node = node->NEXT;
+                } else {
+                    SetColorForText("\n\tUser Not Found! Please Enter A Valid Username!\n", 4);
+                    delayTime(500);
                 }
 
                 break;
@@ -509,32 +527,43 @@ void deleteUser() {
             break;
         
         system("cls");
-        showUsersList();
+        int UsersFound = showUsersList();
+        if (!UsersFound) {
+            return;
+        }
         SetColorForText("\n\tEnter The Username of The User You Want to Delete: ", 2);
         scanf("%s", username);
-        SetColorForText("\n\tUser Has Been Deleted Successfully\n", 4);
+        int retVal = findUser(username);
+        if (retVal) {
+            SetColorForText("\n\tUser Has Been Deleted Successfully\n", 4);
+            delayTime(500);
 
-        if (strcmp(HEAD->username, username) == 0) {
+            if (strcmp(HEAD->username, username) == 0) {
+                userNode = HEAD;
+                HEAD = HEAD->NEXT;
+                free(userNode);
+                return;
+            }
+            if (strcmp(TAIL->username, username) == 0) {
+                userNode = TAIL;
+                TAIL = TAIL->PREV;
+                TAIL->NEXT = NULL;
+                free(userNode);
+                return;
+            }
             userNode = HEAD;
-            HEAD = HEAD->NEXT;
+            while (userNode != NULL && strcmp(userNode->username, username) != 0) {
+                userNode = userNode->NEXT;
+            }
+            userNode->PREV->NEXT = userNode->NEXT;
+            userNode->NEXT->PREV = userNode->PREV;
             free(userNode);
-            return;
+            system("cls");
+        } else {
+            SetColorForText("\n\tUser Not Found! Please Enter A Valid Username!\n", 4);
+            delayTime(500);
+            system("cls");
         }
-        if (strcmp(TAIL->username, username) == 0) {
-            userNode = TAIL;
-            TAIL = TAIL->PREV;
-            TAIL->NEXT = NULL;
-            free(userNode);
-            return;
-        }
-        userNode = HEAD;
-        while (userNode != NULL && strcmp(userNode->username, username) != 0) {
-            userNode = userNode->NEXT;
-        }
-        userNode->PREV->NEXT = userNode->NEXT;
-        userNode->NEXT->PREV = userNode->PREV;
-        free(userNode);
-        system("cls");
     }
     rewriteToFile();
 }
@@ -594,6 +623,11 @@ void displayLeaderBoard() {
     sortAllUsers();
     struct User *node = HEAD;
 
+    if (node == NULL) {
+        SetColorForText("\n\n\t\t\t\t\t\t\tSeems Like There Aren't Any Users :( \n", 4);
+        return;
+    }
+
     printf("\n\n\t\t\t\t\t%c", 218);
     for (int i = 0; i < 80; i++) {
         printf("%c",196);
@@ -632,9 +666,6 @@ void displayLeaderBoard() {
         printf("%c",196);
     }
     printf("%c\n", 217);
-
-    
-    
 }
 
 void updateCurrUser(char username[50], int Score) {

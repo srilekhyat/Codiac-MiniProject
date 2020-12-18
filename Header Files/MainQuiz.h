@@ -65,7 +65,11 @@ int takeMainQuiz(int totalScore) {
             result = displayMainQuizQuestions("OOPS", totalScore);
             testTaken = 1;
             break;
+        case 4:
+            break;
         default:
+            SetColorForText("\n\tINVALID ENTRY!", 4);
+            delayTime(500);
             break;
     }
 

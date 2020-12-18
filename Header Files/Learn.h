@@ -15,7 +15,6 @@ void display();
 char* chooseTopic(char*, int);
 void displayTopics(char*);
 void displayInfo(char*, char*);
-void delayTimeLearn(int);
 
 void learn() {
     int choice;
@@ -26,7 +25,7 @@ void learn() {
     do {
         system("cls");
 
-        SetColorForText("\n\n\t\t\t\t\t\t\t\tChoose A Topic To Learn!\n", 2);
+        SetColorForText("\n\n\t\t\t\t\t\t\t\tChoose A Concept To Learn!\n", 2);
 
         printf("\n\n\t\t\t\t\t\t%c", 218);
         for (int i = 0; i < 60; i++) {
@@ -64,7 +63,11 @@ void learn() {
                 conc = "OOPs";
                 displayTopics(conc);
                 break;
+            case 4:
+                break;
             default:
+                SetColorForText("\n\tINVALID ENTRY!", 4);
+                delayTime(500);
                 break;
         }
     } while (choice != 4);
@@ -180,7 +183,12 @@ void displayTopics(char *concept) {
             break;
         }
         char *topic = chooseTopic(concept, choice);
-        displayInfo(concept, topic);
+        if (strcmp(topic, "") != 0) {
+            displayInfo(concept, topic);
+        } else {
+            SetColorForText("\n\tINVALID ENTRY!", 4);
+            delayTime(500);
+        }
 
     } while (choice != -1);
 }
@@ -247,7 +255,7 @@ void displayInfo(char *concept, char *topic) {
                 
                 while (node != NULL) {
                     if (strcmp(concept, node->concept) == 0 && strcmp(topic, node->topic) == 0) {
-                        delayTimeLearn(100);
+                        delayTime(100);
                         printf("%s", node->info);
                     }
                     node = node->NEXT;
@@ -274,8 +282,8 @@ void displayInfo(char *concept, char *topic) {
 
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
 
-                printf("                                                          Let's Test Your Knowledge!\n", 2);
-                printf("                                                   ----------------------------------------\n", 2);
+                printf("                                                          Let's Test Your Knowledge!\n");
+                printf("                                                   ----------------------------------------\n");
 
                 SetConsoleTextAttribute(hConsole, saved_attributes);
 
@@ -350,6 +358,8 @@ char* chooseTopic(char* concept, int choice) {
                 strcpy(topic, tempTopic);
                 break;
             default:
+                tempTopic = "";
+                strcpy(topic, tempTopic);
                 break;
         }
     }
@@ -414,6 +424,8 @@ char* chooseTopic(char* concept, int choice) {
                 strcpy(topic, tempTopic);
                 break;
             default:
+                tempTopic = "";
+                strcpy(topic, tempTopic);
                 break;
         }
 
@@ -449,16 +461,11 @@ char* chooseTopic(char* concept, int choice) {
                     strcpy(topic, tempTopic);
                     break;
                 default:
+                    tempTopic = "";
+                    strcpy(topic, tempTopic);
                     break;
             }
         }
     }
     return topic;
-}
-
-void delayTimeLearn(int ms) {
-
-    clock_t start_time = clock();
-    while (clock() < start_time + ms)
-        ;
 }
