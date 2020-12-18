@@ -80,7 +80,7 @@ int takeMainQuiz(int totalScore) {
 
 
 void loadMainQuizFromFile() {
-    FILE *fptr = fopen("mainQuizData.txt", "r");
+    FILE *fptr = fopen("Data Files/mainQuizData.txt", "r");
     char buffer[500];
     int i;
 

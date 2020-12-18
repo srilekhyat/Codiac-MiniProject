@@ -16,7 +16,7 @@ struct Quiz {
 struct Quiz *HEADQ = NULL;
 
 void loadQuizFromFile() {
-    FILE *fptr = fopen("quizData.txt", "r");
+    FILE *fptr = fopen("Data Files/quizData.txt", "r");
     char buffer[500];
     int i;
 

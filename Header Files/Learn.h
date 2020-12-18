@@ -71,7 +71,7 @@ void learn() {
 }
 
 void loadConcepts() {
-    FILE *fptr = fopen("data.txt", "r");
+    FILE *fptr = fopen("Data Files/data.txt", "r");
     char buffer[500];
     int i;
 

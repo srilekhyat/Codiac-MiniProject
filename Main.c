@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <windows.h>
-#include "banner.h"
-#include "Register_Login.h"
+#include "Header Files/banner.h"
+#include "Header Files/Register_Login.h"
 
 int main() {
     int choice;

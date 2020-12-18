@@ -117,7 +117,7 @@ void writeToFile() {
         printf("User Table is empty!\n");
     } else {
         FILE *fp;
-        fp = fopen("Users.txt", "ab");
+        fp = fopen("Data Files/Users.txt", "ab");
         fseek(fp, 0, SEEK_END);
         fwrite(TAIL, USERSIZE, 1, fp);
         fclose(fp);
@@ -134,7 +134,7 @@ void loadUsers() {
     deleteAllNodes();
     tempNode = (struct User*)malloc(sizeof(struct User));
     
-    fp = fopen("Users.txt", "rb");
+    fp = fopen("Data Files/Users.txt", "rb");
     while(fread(tempNode, USERSIZE, 1, fp) > 0){
         
         newNode = (struct User*)malloc(sizeof(struct User));
@@ -540,7 +540,7 @@ void deleteUser() {
 }
 
 void rewriteToFile() {
-    FILE *fptr = fopen("Users.txt", "wb");
+    FILE *fptr = fopen("Data Files/Users.txt", "wb");
     struct User *node = HEAD;
 
     while (node != NULL) {
