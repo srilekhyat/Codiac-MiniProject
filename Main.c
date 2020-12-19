@@ -89,7 +89,14 @@ int main() {
                     printf("\n");
                     showAdminScreen();
                 } else if (ret == 1) {
-                    showNewSelectionScreen();
+                    system("cls");
+
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+                    printf("\n");
+                    getBanner("HELLO USER", '|');
+                    SetConsoleTextAttribute(hConsole, saved_attributes);
+
+                    showUserSelectionScreen();
                 }
                 break;
             case 3: // exit

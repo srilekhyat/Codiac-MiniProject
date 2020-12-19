@@ -1,5 +1,10 @@
+// Banner Module
+// For displaying the headings in a stylish manner
+
+// defining printing speed of banner
 #define BANNERSPEED 50
 
+// function declaration
 void    getBanner(char *, char);
 void	DisplayBannerRow(int, int, char);
 void delayTime(int seconds);
@@ -106,6 +111,7 @@ int ArrAlpha[95][8] = {
 {7, 96, 82, 12, 0, 0, 0, 0}             // ~
 }; 
 
+// function for printing the banner with given string and display character
 void	getBanner(char	*AlphaStr, char DispChar) {
 	int	i, Len, Row, AlphaIndex, Width, Num;	
 
@@ -124,6 +130,7 @@ void	getBanner(char	*AlphaStr, char DispChar) {
 	}
 }
 
+// function for displaying each row in the banner
 void DisplayBannerRow(int Width, int Num, char DispChar) {
 	char	BinaryStr[12] = "000000000000" ;
 	int	Reminder, i;
@@ -146,6 +153,7 @@ void DisplayBannerRow(int Width, int Num, char DispChar) {
 	}
 }
 
+// function for delaying time for 'ms' milli-seconds
 void delayTime(int ms) {
 
     clock_t start_time = clock();
@@ -153,48 +161,62 @@ void delayTime(int ms) {
         ;
 }
 
+// function fro setting the text a certain color in the console
 void SetColorForText(char *OutputStr, int ColorVal) {
+    // gets the reference to the standard output device, which is the console
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    // consoleInfo gets the console (CMD Prompt) information
     CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
     WORD saved_attributes;
 
     GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
     saved_attributes = consoleInfo.wAttributes;  
+    // saved_attributes saves the original attributes of the console
     
+    // based on the ColorVal
     switch (ColorVal) {
+        // blue
         case 1:
             SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
             break;
+        // green
         case 2:
             SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
             break;
+        // cyan
         case 3:
             SetConsoleTextAttribute(hConsole, 0x0003);
             break;
+        // red
         case 4:
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
             break;
+        // magenta
         case 5:
             SetConsoleTextAttribute(hConsole, 0x0005);
             break;
+        // yellow
         case 6:
             SetConsoleTextAttribute(hConsole, 0x0006);
             break;
+        // light gray
         case 7:
             SetConsoleTextAttribute(hConsole, 0x0007);
             break;
+        // dark gray
         case 8:
             SetConsoleTextAttribute(hConsole, FOREGROUND_INTENSITY);
             break;
+        // light blue
         case 9:
             SetConsoleTextAttribute(hConsole, 0x0009);
-            break;
-        case 10:
-            SetConsoleTextAttribute(hConsole, 0x0010);
             break;
         default:
             break;
     }
     printf("%s", OutputStr);
+
+    // re-setting to original attributes
     SetConsoleTextAttribute(hConsole, saved_attributes);    
 }

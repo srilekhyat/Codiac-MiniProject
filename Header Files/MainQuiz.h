@@ -1,3 +1,6 @@
+// MainQuiz Module
+
+// Linked List structure for storing Main Quiz questions, options and result
 struct MainQuiz {
     char concept[20];
     char ques[250];
@@ -10,6 +13,7 @@ struct MainQuiz {
 };
 struct MainQuiz *HEADMQ = NULL;
 
+// function declarations
 int takeMainQuiz(int);
 void loadMainQuizFromFile();
 void insertMainQuiz(char[], char[], char[], char[], char[], char[], char[]);
@@ -17,8 +21,11 @@ int displayMainQuizQuestions(char[], int);
 void writeScoreToUserFile(char[], int);
 
 
+// function for choosing concept in which to take the Main Quiz
 int takeMainQuiz(int totalScore) {
     int choice, result, testTaken=0;
+
+    // load quiz questions from database
     loadMainQuizFromFile();
 
     system("cls");
@@ -52,6 +59,7 @@ int takeMainQuiz(int totalScore) {
 
     system("cls");
 
+    // based on choice chosen, we display the questions and store the result
     switch (choice) {
         case 1:;
             result = displayMainQuizQuestions("C", totalScore);
@@ -76,13 +84,15 @@ int takeMainQuiz(int totalScore) {
     if (testTaken){
         printf("\t\t\t\t\t\t\t\tYou Scored: %d Points!\n", (result-totalScore));
         SetColorForText("\n\t\t\t\t\t\t\t\tThank You For Taking The Quiz :) \n\t\t\t\t\t\t\t\tRedirecting You Back To The Main Menu!\n\n", 1);
-        delayTime(2000);
+        delayTime(2500);
     }
 
+    // result contains the point scored by the user
     return result;
 }
 
 
+// function for loading main quiz questions, options and result from database
 void loadMainQuizFromFile() {
     FILE *fptr = fopen("Data Files/mainQuizData.txt", "r");
     char buffer[500];
@@ -91,8 +101,13 @@ void loadMainQuizFromFile() {
     HEADMQ = NULL;
     
     printf("Loading Data.....\n");
+
+    // First, we read line by line from the file
     while (fgets(buffer, 700, fptr) != NULL) {
         char concepts[20], question[250], optionA[50], optionB[50], optionC[50], optionD[50], result[50];
+        
+        // we have used "|" as the delimiter and based on that we split the data in the line into 
+        // concept name, question, the four options and result
 
         char *conc = strtok(buffer, "|");
         char *ques = strtok(NULL, "|");
@@ -118,16 +133,19 @@ void loadMainQuizFromFile() {
             if (question[i] == '\\' && question[i+1] == 'n') {
                 question[i] = ' ';
                 question[i+1] = '\n';
-            }
+            }   
         }
 
+        // Then, we insert into the linked list structure
         insertMainQuiz(concepts, question, optionA, optionB, optionC, optionD, result);
 
+        // This is for reading from the next line
         conc = strtok(NULL, "|");
     }
 }
 
 
+// function for inserting new data into 'MainQuiz' linked list
 void insertMainQuiz(char conc[20], char ques[250], char optA[20], char optB[20], char optC[20], char optD[20], char res[20]) {
     struct MainQuiz *newData = (struct MainQuiz*)malloc(sizeof(struct MainQuiz));
     strcpy(newData->concept, conc);
@@ -152,8 +170,9 @@ void insertMainQuiz(char conc[20], char ques[250], char optA[20], char optB[20],
     newData->NEXT = NULL;
 }
 
-
+// function for displaying questions of the MainQuiz
 int displayMainQuizQuestions(char concept[10], int totalScore) {
+    // totalScore is the present score of the user
     struct MainQuiz *node = HEADMQ;
     int i = 1;
 
@@ -161,17 +180,19 @@ int displayMainQuizQuestions(char concept[10], int totalScore) {
         char optionChosen[20];
         if (strcmp(node->concept, concept) == 0) {
             do {
-                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-                CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+                // gets the reference to the standard output device, which is the console
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
+                CONSOLE_SCREEN_BUFFER_INFO consoleInfo; // consoleInfo gets the console (CMD Prompt) information
                 WORD saved_attributes;
 
                 GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
                 saved_attributes = consoleInfo.wAttributes;
+                // saved_attributes saves the original attributes of the console
 
-                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN); // setting text to green
                 printf("\n\n\tQuestion %d: %s\n", i, node->ques);
 
-                SetConsoleTextAttribute(hConsole, saved_attributes);
+                SetConsoleTextAttribute(hConsole, saved_attributes); // re-setting text to original color
 
                 printf("\tOption A: %s\n", node->optionA);
                 printf("\tOption B: %s\n", node->optionB);
@@ -189,6 +210,7 @@ int displayMainQuizQuestions(char concept[10], int totalScore) {
 
                 SetConsoleTextAttribute(hConsole, saved_attributes);
 
+                // we keep adding a point when the option chosen is correct
                 int result = strncmp(optionChosen, node->result, 1);
                 switch (result) {
                     case 0: 
@@ -213,5 +235,7 @@ int displayMainQuizQuestions(char concept[10], int totalScore) {
         }
         node = node->NEXT;
     }
+
+    // return the new score
     return totalScore;
 }

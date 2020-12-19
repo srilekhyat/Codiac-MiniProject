@@ -1,5 +1,9 @@
+// Learn Module
+
+// including Quiz Module
 #include "Quiz.h"
 
+// Structure (Linked List) for storing the Concepts data
 struct Data {
     char concept[20];
     char topic[30];
@@ -8,14 +12,16 @@ struct Data {
 };
 struct Data *HEADL = NULL;
 
+// function declarations
 void learn();
 void loadConcepts();
 void insert(char[], char[], char[]);
-void display();
+
 char* chooseTopic(char*, int);
 void displayTopics(char*);
 void displayInfo(char*, char*);
 
+// function for allowing user to choose the concept they want to learn
 void learn() {
     int choice;
     char *conc;
@@ -50,6 +56,8 @@ void learn() {
         
         SetColorForText("\n\tEnter your choice: ", 2);
         scanf("%d", &choice);
+
+        // after taking users choice, we display relevant topics of the chosen concepts
         switch (choice) {
             case 1:;
                 conc = "C";
@@ -73,15 +81,18 @@ void learn() {
     } while (choice != 4);
 }
 
+// function for loading Learning data from the database
 void loadConcepts() {
     FILE *fptr = fopen("Data Files/data.txt", "r");
     char buffer[500];
     int i;
 
     printf("Loading Data.....\n");
+    // First, we read line by line from the file
     while (fgets(buffer, 500, fptr) != NULL) {
         char concepts[20], topics[30], information[480];
 
+        // we have used "|" as the delimiter and based on that we split the data in the line into concept name, topic and info
         char *conc = strtok(buffer, "|");
         char *topic = strtok(NULL, "|");
         char *info = strtok(NULL, "|");
@@ -102,12 +113,15 @@ void loadConcepts() {
             }
         }
 
+        // Then, we insert into Data linked list
         insert(concepts, topics, information);
 
+        // This is for reading from the next line
         conc = strtok(NULL, "|");
     }
 }
 
+// function for inserting the new data into Data Linked List
 void insert(char conc[20], char top[30], char information[480]) {
     struct Data *newData = (struct Data*)malloc(sizeof(struct Data));
     strcpy(newData->concept, conc);
@@ -128,19 +142,8 @@ void insert(char conc[20], char top[30], char information[480]) {
     newData->NEXT = NULL;
 }
 
-void display() {
-    if (HEADL == NULL) {
-        printf("Empty! :(\n");
-        return;
-    }
 
-    struct Data *temp = HEADL;
-    while (temp != NULL) {
-        printf("%s | %s | %s\n", temp->concept, temp->topic, temp->info);
-        temp = temp->NEXT;
-    }
-}
-
+// function for displaying topics in a concept
 void displayTopics(char *concept) {
     int choice;
     char prevTopic[30];
@@ -160,7 +163,6 @@ void displayTopics(char *concept) {
         while (node != NULL) {
             if (strcmp(concept, node->concept) == 0 && strcmp(prevTopic, node->topic) != 0) {
                 printf("                                        |%-23s%2d.    %-22s%18s\n\n"," ", i++, node->topic,"|");
-                //printf("                                                                 %d.    %s\n\n", i++, node->topic);
                 strcpy(prevTopic, node->topic);
             }
             node = node->NEXT;
@@ -178,13 +180,14 @@ void displayTopics(char *concept) {
         SetColorForText("\n\tEnter your choice: ", 2);
         scanf("%d", &choice);
 
-
         if (choice == -1) {
             break;
         }
+
+        // after choosing the option for topic, we send to 'chooseTopic' function to get the topic name
         char *topic = chooseTopic(concept, choice);
         if (strcmp(topic, "") != 0) {
-            displayInfo(concept, topic);
+            displayInfo(concept, topic); // then, we display information related to that topic
         } else {
             SetColorForText("\n\tINVALID ENTRY!", 4);
             delayTime(500);
@@ -193,6 +196,8 @@ void displayTopics(char *concept) {
     } while (choice != -1);
 }
 
+
+// function for displaying information of given concept and given topic
 void displayInfo(char *concept, char *topic) {
     int choice;
     system("cls");
@@ -225,6 +230,7 @@ void displayInfo(char *concept, char *topic) {
 
         system("cls");
         switch (choice) {
+            // choice for displaying information on topic chosen
             case 1:;
                 struct Data *node = HEADL;
                 int iter = 0;
@@ -273,6 +279,7 @@ void displayInfo(char *concept, char *topic) {
                 
                 break;
             
+            // choice for displaying mini-assessment
             case 2:
                 printf("\n");
                 for (int i = 0; i < 170; i++) {
@@ -300,8 +307,11 @@ void displayInfo(char *concept, char *topic) {
     } while (choice != -1);
 }
 
+
+// function for getting topic related to given concept and option chosen
 char* chooseTopic(char* concept, int choice) {
     char *topic;
+    // for topics in 'C'
     if (strcmp(concept, "C") == 0) {
         char *tempTopic;
         switch (choice) {
@@ -364,6 +374,7 @@ char* chooseTopic(char* concept, int choice) {
         }
     }
 
+    // for topics in 'Python'
     if (strcmp(concept, "Python") == 0) {
         char *tempTopic;
         switch (choice) {
@@ -429,6 +440,7 @@ char* chooseTopic(char* concept, int choice) {
                 break;
         }
 
+        // for topics in 'OOPs'
         if (strcmp(concept, "OOPs") == 0) {
             char *tempTopic;
             switch (choice) {
